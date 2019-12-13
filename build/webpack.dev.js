@@ -10,12 +10,7 @@ module.exports = merge(common, {
   mode: "development",
   // devtool: 'source-map',
   entry: {
-    app: [
-      // 'webpack-dev-server/client?http://localhost:8080',
-      // 'webpack/hot/only-dev-server',
-      // 'babel-polyfill',
-      "./src/index.js"
-    ]
+    app: ["./src/index.ts"]
   },
   output: {
     filename: "[name].bundle.js",

@@ -5,50 +5,27 @@
 // babel 对一些公共方法使用了非常小的辅助代码，比如 _extend
 // 默认情况下会被添加到每一个需要它的文件中。你可以引入 @babel/runtime 作为一个独立模块，来避免重复引入
 
-{ // 插件
-    // "babel-polyfill": 高级语法
-    "plugins": [
-        "react-hot-loader/babel",
-        "@babel/plugin-transform-flow-strip-types",
-        "@babel/plugin-transform-runtime", // 可以执行promise gentor
-        "@babel/plugin-proposal-class-properties"
-    ],
-    // 预设
-    // "@babel/preset-env": "^7.0.0-beta.44", // es6=> es5
-    "presets": [
-        [
-            "@babel/env", // 可以转化所有标准
-            {
-                "modules": false,
-                "targets": {
-                    "chrome": 40,
-                    "browsers": ["last 2 versions", "safari 7"]
-                },
-                "shippedProposals": true
-            }
-        ],
-        "@babel/react"
+{
+  // 插件
+  // "babel-polyfill": 高级语法
+  "plugins": [
+    "@babel/plugin-transform-flow-strip-types",
+    "@babel/plugin-transform-runtime", // 可以执行promise gentor
+    "@babel/plugin-proposal-class-properties"
+  ],
+  // 预设
+  // "@babel/preset-env": "^7.0.0-beta.44", // es6=> es5
+  "presets": [
+    [
+      "@babel/env", // 可以转化所有标准
+      {
+        "modules": false,
+        "targets": {
+          "chrome": 40,
+          "browsers": ["last 2 versions", "safari 7"]
+        },
+        "shippedProposals": true
+      }
     ]
+  ]
 }
-
-
-/**
-babel
-1 babel-core 核心
-2 babel-cli是一个通过命令行对js文件进行换码的工具。
-4 babel-register字面意思能看出来，这是babel的一个注册器，它在底层改写了node的require方法，引入babel-register之后所有require并以.es6, .es, .jsx 和 .js为后缀的模块都会经过babel的转译。
-5 babel-polyfill 垫片用主要是用已经存在的语法和api实现一些浏览器还没有实现的api，对浏览器的一些缺陷做一些修补
-
-plugin
- "transform-es2015-arrow-functions", //转译箭头函数
-  "transform-es2015-classes", //转译class语法
-  "transform-es2015-spread", //转译数组解构
-  "transform-es2015-for-of" //转译for-of
-  "@babel/plugin-proposal-class-properties" // 属性舒适化语法  react 中能自定义函数 ()=>{}
-   @babel/plugin-syntax-dynamic-import动态import()?
-   @babel/plugin-transform-runtime": "^7.0.0-beta.44", Babel 转译后的代码要实现源代码同样的功能需要借助一些帮助函数
-  "@babel/preset-env": "^7.0.0-beta.44",
-  "@babel/preset-flow": "^7.0.0-beta.44",
-  "@babel/preset-react": "^7.0.0-beta.44",
-
- */

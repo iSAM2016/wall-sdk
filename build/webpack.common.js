@@ -18,13 +18,13 @@ module.exports = {
       // // 配置webpack 模块寻找目录，为array默认只会去node_modules,
       // modules: [path.resolve(__dirname, './src/components'), 'node_modules'],
     },
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".ts", ".js"]
   },
   module: {
     rules: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+      // All files with a '.ts' or extension will be handled by 'awesome-typescript-loader'.
       {
-        test: /\.tsx?$/,
+        test: /\.ts?$/,
         use: ["babel-loader", "ts-loader"],
         exclude: /node_modules/
       },

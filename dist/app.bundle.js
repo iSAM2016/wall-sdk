@@ -86,25 +86,25 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/index.js":
+/***/ "./src/index.ts":
 /*!**********************!*\
-  !*** ./src/index.js ***!
+  !*** ./src/index.ts ***!
   \**********************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("console.log(2);\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("// import { AutoWired, Inject } from \"typescript-ioc\";\n// import IBaseType from \"./parent-type\";\n// export class Worker {\n//   @Inject public type: IBaseType;\n//   public work() {\n//     this.type.method1();\n//   }\n// }\nvar a = \"999\";\nconsole.log(a);\n\n//# sourceURL=webpack:///./src/index.ts?");
 
 /***/ }),
 
 /***/ 0:
 /*!****************************!*\
-  !*** multi ./src/index.js ***!
+  !*** multi ./src/index.ts ***!
   \****************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! ./src/index.js */\"./src/index.js\");\n\n\n//# sourceURL=webpack:///multi_./src/index.js?");
+eval("module.exports = __webpack_require__(/*! ./src/index.ts */\"./src/index.ts\");\n\n\n//# sourceURL=webpack:///multi_./src/index.ts?");
 
 /***/ })
 
