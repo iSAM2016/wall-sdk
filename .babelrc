@@ -1,0 +1,31 @@
+/**
+ * 可以在options 配资
+ */
+//  babel 在每个文件都插入了辅助代码，使代码体积过大
+// babel 对一些公共方法使用了非常小的辅助代码，比如 _extend
+// 默认情况下会被添加到每一个需要它的文件中。你可以引入 @babel/runtime 作为一个独立模块，来避免重复引入
+
+{
+  // 插件
+  // "babel-polyfill": 高级语法
+  "plugins": [
+    "@babel/plugin-transform-flow-strip-types",
+    "@babel/plugin-transform-runtime", // 可以执行promise gentor
+    "@babel/plugin-proposal-class-properties"
+  ],
+  // 预设
+  // "@babel/preset-env": "^7.0.0-beta.44", // es6=> es5
+  "presets": [
+    [
+      "@babel/env", // 可以转化所有标准
+      {
+        "modules": false,
+        "targets": {
+          "chrome": 40,
+          "browsers": ["last 2 versions", "safari 7"]
+        },
+        "shippedProposals": true
+      }
+    ]
+  ]
+}
