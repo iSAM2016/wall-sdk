@@ -9,8 +9,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@Common/*": [
-        "../src/common/*"
+      "@app/*": [
+        "src/*"
+      ],
+      "@types/*": [
+        "src/types/"
       ]
     }
   },

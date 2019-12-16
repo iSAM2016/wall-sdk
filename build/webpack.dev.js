@@ -10,7 +10,7 @@ module.exports = merge(common, {
   mode: "development",
   // devtool: 'source-map',
   entry: {
-    app: ["./src/index.ts"]
+    app: ["./src/dev.ts"]
   },
   output: {
     filename: "[name].bundle.js",

@@ -14,7 +14,9 @@ const global = {
 module.exports = {
   resolve: {
     alias: {
-      utils: path.resolve(__dirname, "../src/utils")
+      utils: path.resolve(__dirname, "../src/utils"),
+      "@types": path.resolve(__dirname, "../src/types"),
+      "@app": path.resolve(__dirname, "../src")
       // // 配置webpack 模块寻找目录，为array默认只会去node_modules,
       // modules: [path.resolve(__dirname, './src/components'), 'node_modules'],
     },
