@@ -1,10 +1,40 @@
-// import { AopModule } from "@tsdi/aop";
+import { errorInterface, optionsInterface } from '@app/types';
 
-// // in browser
-// import { ContainerBuilder } from "@tsdi/platform-browser";
+import TryCatch from './integrations/tryCatch';
 
-// let builder = new ContainerBuilder();
+export const defaultIntegrations = [
+    // new TryCatch()
+    //   new Breadcrumbs(),
+    //   new GlobalHandlers(),
+    //   // new LinkedErrors(),
+    //   new UserAgent(),
+    // ];
+];
 
-// let container = build.create();
+class WallCore {
+    constructor(options: optionsInterface) {
+        if (options.token === void 0) {
+            throw Error('token is required');
+        }
+        this.init();
+    }
+    /**
+     * 重写error
+     */
+    init() {
+        new TryCatch();
+    }
+}
+/**
+ * init wal
+ * @param options
+ */
+function init(options: optionsInterface) {
+    console.log(options);
+    if (!(window as any).WALL) {
+        return new WallCore(options); // TODO: window 单例模式
+    }
+    return (window as any).WALL;
+}
 
-// container.use(AopModule);
+export { init };
