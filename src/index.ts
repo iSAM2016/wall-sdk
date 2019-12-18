@@ -1,40 +1,22 @@
-import { errorInterface, optionsInterface } from '@app/types';
+import Application from "@app/core/wall";
+import { EngineInterface } from "@app/types";
 
-import TryCatch from './integrations/tryCatch';
+import TryCatch from "./integrations/trycatch";
 
-export const defaultIntegrations = [
-    // new TryCatch()
-    //   new Breadcrumbs(),
-    //   new GlobalHandlers(),
-    //   // new LinkedErrors(),
-    //   new UserAgent(),
-    // ];
-];
+let wall = Application(); // app 是监听函数
 
-class WallCore {
-    constructor(options: optionsInterface) {
-        if (options.token === void 0) {
-            throw Error('token is required');
-        }
-        this.init();
-    }
-    /**
-     * 重写error
-     */
-    init() {
-        new TryCatch();
-    }
-}
-/**
- * init wal
- * @param options
- */
-function init(options: optionsInterface) {
-    console.log(options);
-    if (!(window as any).WALL) {
-        return new WallCore(options); // TODO: window 单例模式
-    }
-    return (window as any).WALL;
-}
+wall.use(function(event, next) {
+  // console.log("我是中间件1");
+  //   console.log(event);
+  next("我是错误");
+});
 
-export { init };
+wall.use(function(err, event, next) {
+  // console.log("我是中间件2");
+  console.log(event);
+  next();
+});
+
+wall.listen([new TryCatch(wall)]);
+
+export default wall;

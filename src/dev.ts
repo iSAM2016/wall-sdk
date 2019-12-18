@@ -1,4 +1,4 @@
-import * as Wall from "./index";
+import Wall from "./index";
 // h5  版本
 Wall.init({
   token: 9999
