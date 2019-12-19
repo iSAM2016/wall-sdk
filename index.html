@@ -2,33 +2,135 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>Document</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
+
+  <div>
+    <pre id="info"></pre>
+  </div>
+  <img
+    src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30140.jpeg"
+    alt="" />
+
+  <div>
+    <img
+      src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30147.jpeg"
+      alt="" />
+    <ul>
+      <img
+        src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30144.jpeg"
+        alt="" />
+    </ul>
+  </div>
 </body>
+<button id="btn">获取信息</button>
 
 </html>
+<!-- <script src="./dist/static/app.js"></script> -->
 <script>
-    /**
-     * 基本错误
-     */
-    console.log(o)
+  // console.log(e);
+  /**
+   * 1.基本错误
+   */
+  // try {
+  //   fn()
+  // } catch (e) {
+  //   // 不会被window.error 捕捉
+  //   console.log(e);
+  // }
 
-    /**
-     * promise 异常
-     */
-    function main() {
-        new Promise(function (resolve, reject) {
-                reject('promise 异常');
-            })
-            .then(() => console.log('Done!'));
+  /**
+   * 2. 异步错误
+   *
+   */
+  // try {
+  //   setTimeout(() => {
+  //     fn() // 异步错误
+  //   })
+  // } catch (e) {
+  //   console.log('trycatch我感知不到异步错误');
+  // }
+
+  /**
+   * 3. 异步错误
+   *
+   */
+  // 异步错误
+  // setTimeout(() => {
+  //   console.log(o)
+  // });
+
+  /**
+   * 4.promise 异常
+   */
+  // function main() {
+  //   new Promise(function (resolve, reject) {
+  //     reject("promise 异常");
+  //   }).then(() => console.log("Done!"));
+  // }
+  // main()
+
+  /**
+   * 5.自定义 Error
+   */
+  // var img = new Image();
+  // img.src = 'http://xxx.com/xxx.jpg';
+  // img.onerror = function () {
+  //   WALL.createCustomEvent({
+  //     message: '图片加载错误'
+  //   })
+  // }
+  /**
+   * 6.console.error
+   */
+  // console.error("我是console.errror")
+
+  /**
+   * 7 异步错误
+   */
+  // setTimeout(() => {
+  //   Jartto;
+  // });
+
+  /**
+   *  8 xhr 错误
+   */
+  var btn = document.getElementById('btn')
+  btn.onclick = function () {
+    //创建xhr对象
+    var xhr;
+    if (window.XMLHttpRequest) {
+      xhr = new XMLHttpRequest();
+    } else {
+      xhr = new ActiveXObject('Microsoft.XMLHTTP');
     }
-    main()
-    /**
-     * event Error
-     */
+
+
+    xhr.open('post', 'test.php', true);
+    xhr.ontimeout = function () {
+      console.log('The request timed out.');
+    }
+    xhr.timeout = 1000;
+    xhr.send({
+      data: 34
+    });
+  }
+
+  // window.onerror = function (message, source, lineno, colno, error) {
+  //   console.log('捕获到异常：', {
+  //     message,
+  //     source,
+  //     lineno,
+  //     colno,
+  //     error
+  //   });
+  //   return true;
+  // }
 </script>
