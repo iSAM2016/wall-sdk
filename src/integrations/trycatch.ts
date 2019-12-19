@@ -1,41 +1,74 @@
-import { ErrorInterface, EngineInterface } from "@app/types";
-
-/**
- * error 重写
+/*
+ * 错误监听
+ * @Author: isam2016
+ * @Date: 2019-12-19 14:42:13
+ * @Last Modified by: isam2016
+ * @Last Modified time: 2019-12-19 14:43:07
  */
+import { BaseInfoInterface, EngineInterface } from "@app/types";
+
 class TryCatch implements EngineInterface {
   WALL: Function;
   // 注册发动机 TODO: wall
   constructor(wall: Function) {
     this.WALL = wall;
+    this.createCustomEvent();
+    this.changeRriginAddEventListener();
     this.onError();
     this.originOnunhandledrejection();
     this.startAddentListener();
+    this.consoleError();
   }
-  createEvent() {}
   /**
-   * 重写error
+   * 自定义错误
    */
-  onError(): void {
+  private createCustomEvent() {
+    let self = this;
+    (self.WALL as any).createCustomEvent = message => {
+      self.WALL({
+        type: "CUSTOMERROR",
+        info: {
+          message
+        }
+      });
+    };
+  }
+  private changeRriginAddEventListener() {
+    const originAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function(type, listener, options) {
+      const addStack = new Error(`Event (${type})`).stack;
+      const wrappedListener = function(...args) {
+        try {
+          // 浏览器不会对 try-catch 起来的异常进行跨域拦截，所以 catch 到的时候，是有堆栈信息的；
+          return (listener as any).apply(this, args);
+        } catch (err) {
+          err.stack += "\n" + addStack;
+          throw err;
+        }
+      };
+      return originAddEventListener.call(this, type, wrappedListener, options);
+    };
+  }
+  //重写error
+  private onError(): void {
     let originHandleError = window.onerror;
     window.onerror = (...arg) => {
       let [errorMessage, scriptURI, lineNumber, columnNumber, errorObj] = arg;
-      let errorInfo: ErrorInterface = {
+      let errorInfo: BaseInfoInterface = {
         type: "NORMALERROR",
-        createTime: +new Date(),
         info: {}
       };
       errorInfo.info._errorMessage = errorMessage;
       errorInfo.info._scriptURI = scriptURI;
       errorInfo.info._lineNumber = lineNumber;
       errorInfo.info._columnNumber = columnNumber;
-      errorInfo = this._formatError(errorObj, errorInfo);
-
+      errorInfo = this.formatError(errorObj, errorInfo);
       this.WALL(errorInfo);
-      // originHandleError && originHandleError.apply(window, arg);
+      // return true; 当返回true 异常才不会向上抛出
+      originHandleError && originHandleError.apply(window, arg);
     };
   }
-  _formatError = (errObj, errorInfo) => {
+  private formatError = (errObj, errorInfo) => {
     let col: number = errObj.column || errObj.columnNumber; // Safari Firefox
     let row: number = errObj.line || errObj.lineNumber; // Safari Firefox
     let message: string = errObj.message;
@@ -43,7 +76,7 @@ class TryCatch implements EngineInterface {
 
     let { stack } = errObj;
     if (stack) {
-      let { content, resourceUrl, stackRow, stackCol } = this._getStackInfo(
+      let { content, resourceUrl, stackRow, stackCol } = this.getStackInfo(
         stack
       );
       // TODO formatStack
@@ -73,7 +106,7 @@ class TryCatch implements EngineInterface {
       }
     };
   };
-  _getStackInfo(stack) {
+  private getStackInfo(stack) {
     let matchUrl = stack.match(/https?:\/\/[^\n]+/);
     let urlFirstStack = matchUrl ? matchUrl[0] : "";
     let regUrlCheck = /https?:\/\/(\S)*\.js/;
@@ -92,16 +125,15 @@ class TryCatch implements EngineInterface {
 
     return { content: stack, resourceUrl, stackRow, stackCol };
   }
-
   // primose 异常
-  originOnunhandledrejection() {
+  private originOnunhandledrejection() {
     let originOnunhandledrejection = window.onunhandledrejection;
     window.onunhandledrejection = (...arg) => {
       let e = arg[0];
+      e.preventDefault();
       let reason = e.reason;
-      let errorInfo: ErrorInterface = {
+      let errorInfo: BaseInfoInterface = {
         type: "NORMALERROR",
-        createTime: +new Date(),
         info: {
           message: reason
         }
@@ -111,42 +143,73 @@ class TryCatch implements EngineInterface {
         originOnunhandledrejection.apply(window, arg);
     };
   }
-
   // 资源加载异常
-  startAddentListener() {
-    // this._deepTraversal(document.head);
-    this._deepTraversal(document.body);
+  private startAddentListener() {
+    this.deepTraversal(document.head || {});
+    this.deepTraversal(document.body || {});
   }
-
-  _deepTraversal(node) {
-    if (!node) {
-      console.log("请把脚本放在html");
+  private deepTraversal(node) {
+    if (!node.childNodes) {
+      return false;
     }
     let children = [].slice.call(node.childNodes).filter(_ => _.nodeType === 1);
     let imgScript = children.filter(_ => {
       if (_.tagName) {
         let tagName = _.tagName.toLocaleLowerCase();
-        return tagName === "img" || tagName === "script";
+        return tagName === "img";
       }
     });
     this._bindErrorListenter(imgScript);
     let subChildren = children.filter(_ => {
       if (_.tagName) {
         let tagName = _.tagName.toLocaleLowerCase();
-        return tagName !== "img" && tagName !== "script";
+        return (
+          tagName !== "img" &&
+          tagName !== "script" &&
+          tagName !== "link" &&
+          tagName !== "iframe"
+        );
       }
     });
-    console.log(imgScript);
     for (let i = 0; i < subChildren.length; i++) {
-      this._deepTraversal(subChildren[i]);
+      this.deepTraversal(subChildren[i]);
     }
   }
-  _bindErrorListenter(nodeTages) {
+  private _bindErrorListenter(nodeTages) {
+    let self = this;
     nodeTages.forEach(_ => {
       _.onerror = function(error) {
-        console.log(error);
+        let errorInfo: BaseInfoInterface = {
+          type: "IMAGEERROR",
+          info: {
+            message: "图片加载错误",
+            tartget: {
+              alt: error.target.alt,
+              src: error.target.src,
+              path: error.path
+                .filter(_ => _.tagName)
+                .map(_ => _.tagName.toLocaleLowerCase())
+            }
+          }
+        };
+        self.WALL(errorInfo);
+        return true;
       };
     });
+  }
+  private consoleError() {
+    let consoleError = window.console.error;
+    let self = this;
+    window.console.error = function(...arg) {
+      let errorInfo: BaseInfoInterface = {
+        type: "CONSOLEERRR",
+        info: {
+          message: JSON.stringify(arg)
+        }
+      };
+      self.WALL(errorInfo);
+      consoleError && consoleError.apply(window, arg);
+    };
   }
 }
 

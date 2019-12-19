@@ -1,78 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-  </head>
 
-  <body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <title>Document</title>
+  <script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_rendering_2019121002.js"></script>
+</head>
+
+<body>
+
+  <div>
+    <pre id="info"></pre>
+  </div>
+  <img
+    src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30140.jpeg"
+    alt="" />
+
+  <div>
     <img
-      src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30140.jpeg"
-      alt=""
-    />
-
-    <div>
+      src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30147.jpeg"
+      alt="" />
+    <ul>
       <img
-        src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30147.jpeg"
-        alt=""
-      />
-      <ul>
-        <img
-          src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30144.jpeg"
-          alt=""
-        />
-      </ul>
-    </div>
-  </body>
+        src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30144.jpeg"
+        alt="" />
+    </ul>
+  </div>
+</body>
+
+
 </html>
-<script src="./dist/static/app.js"></script>
 <script>
+  // console.log(e);
   /**
-   * 基本错误
+   * 1.基本错误
    */
-  // console.log(o)
+  // try {
+  //   fn()
+  // } catch (e) {
+  //   // 不会被window.error 捕捉
+  //   console.log(e);
+  // }
 
   /**
-   * promise 异常
+   * 2. 异步错误
+   *
+   */
+  // try {
+  //   setTimeout(() => {
+  //     fn() // 异步错误
+  //   })
+  // } catch (e) {
+  //   console.log('trycatch我感知不到异步错误');
+  // }
+
+  /**
+   * 3. 异步错误
+   *
+   */
+  // 异步错误
+  // setTimeout(() => {
+  //   console.log(o)
+  // });
+
+  /**
+   * 4.promise 异常
    */
   function main() {
-    new Promise(function(resolve, reject) {
+    new Promise(function (resolve, reject) {
       reject("promise 异常");
     }).then(() => console.log("Done!"));
   }
   // main()
+
   /**
-   * event Error
+   * 5.自定义 Error
    */
+  // var img = new Image();
+  // img.src = 'http://xxx.com/xxx.jpg';
+  // img.onerror = function () {
+  //   WALL.createCustomEvent({
+  //     message: '图片加载错误'
+  //   })
+  // }
+  /**
+   * 6.console.error
+   */
+  // console.error("我是console.errror")
+
+  // window.onerror = function (message, source, lineno, colno, error) {
+  //   console.log('捕获到异常：', {
+  //     message,
+  //     source,
+  //     lineno,
+  //     colno,
+  //     error
+  //   });
+  //   return true;
+  // }
+  // setTimeout(() => {
+  //   Jartto;
+  // });
 </script>
-<script>
-  window.addEventListener("error", function(msg, url, lineno, colno, error) {
-    alert(0);
-    var string = msg.toLowerCase();
-    var substring = "script error";
-    console.log(string);
-    if (string.indexOf(substring) > -1) {
-      alert("Script Error: See Browser Console for Detail");
-    } else {
-      var message = {
-        Message: msg,
-        URL: url,
-        Line: lineNo,
-        Column: columnNo,
-        "Error object": JSON.stringify(error)
-      };
-      // send error log to server
-      record(message);
-    }
-    return false;
-  });
-</script>
-<script>
-  //   console.log(o);
-</script>
-<script
-  id="kl"
-  src="http://www.imooc.com/static/lib/baiduShare/api/js/base/tanm.js"
-></script>
+<!-- <script src="./dist/static/app.js"></script> -->
