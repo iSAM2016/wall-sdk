@@ -1,18 +1,12 @@
-import { OptionsInterface } from "@app/types/options";
-import { ErrorInterface } from "@app/types/error";
+/*
+ * xhr模块
+ * @Author: isam2016
+ * @Date: 2019-12-19 14:48:02
+ * @Last Modified by: isam2016
+ * @Last Modified time: 2019-12-19 15:22:55
+ */
+import { XhrInfoInterface, BaseInfoInterface } from "@app/types";
 //https://gist.github.com/codecorsair/e14ec90cee91fa8f56054afaa0a39f13
-
-export interface xhrInfoInterface {
-  url: string;
-  method?: Function;
-  status?: number;
-  event?: string;
-  success?: boolean;
-  duration?: number;
-  responseSize?: string;
-  requestSize?: number;
-  type?: string;
-}
 
 class Xhr {
   private readonly xhr = window.XMLHttpRequest;
@@ -20,12 +14,12 @@ class Xhr {
   private originSend: Function = this.xhr.prototype.send;
   private eventListenerMethods: Array<String> = ["load", "error", "abort"];
   private _eagle_start_time: number;
-  private xhrInfo: xhrInfoInterface = {
-    url: "",
-    status: 0
-  };
+  private param: object;
+  private xhrInfo: XhrInfoInterface;
+  WALL: Function;
 
-  constructor() {
+  constructor(wall: Function) {
+    this.WALL = wall;
     this.xhropen();
     this.xhrsend();
   }
@@ -38,6 +32,8 @@ class Xhr {
       _self.xhrInfo = {
         url,
         method,
+        info: {},
+        type: "XHR",
         status: null
       };
       return _self.originOpen.apply(this, arguments);
@@ -46,68 +42,95 @@ class Xhr {
   private xhrsend(): void {
     let _self = this;
     this.xhr.prototype.send = function(value: any) {
-      let xhr = this;
+      let me = this;
+      _self.param = value;
       _self._eagle_start_time = Date.now();
-
-      let ajaxEnd = event => () => {
-        if (xhr.responseType) {
-          let responseSize = null;
-          switch (xhr.responseType) {
-            case "json":
-              responseSize = JSON && JSON.stringify(xhr.response).length;
-              break;
-
-            case "blob":
-            case "moz-blob":
-              responseSize = xhr.response.size;
-            case "arraybufffer":
-              responseSize = xhr.response.byteLength;
-            case "document":
-              responseSize =
-                xhr.response.documentElement &&
-                xhr.response.documentElement.innerHTML &&
-                xhr.response.documentElement.innerHTML.length + 28;
-              break;
-            default:
-              responseSize = xhr.response.length;
-          }
-          _self.xhrInfo.event = event;
-          _self.xhrInfo.status = xhr.status;
-          _self.xhrInfo.success =
-            (xhr.status >= 200 && xhr.status <= 206) || xhr.status === 304;
-          _self.xhrInfo.duration = Date.now() - _self._eagle_start_time;
-          _self.xhrInfo.responseSize = responseSize;
-          _self.xhrInfo.requestSize = value ? value.length : 0;
-          _self.xhrInfo.type = "xhr";
-        }
-      };
-
-      if (xhr.addEventListener) {
-        this.eventListenerMethods.reduce((xhr: any, method: string) => {
-          xhr.addEventListener(method, ajaxEnd(method), false);
-          return xhr;
-        }, this);
+      if (me.addEventListener) {
+        _self.eventListenerMethods.reduce((me: any, method: string) => {
+          me.addEventListener(method, _self.handleEvent(_self), false);
+          return me;
+        }, me);
       } else {
-        let _origin_onreadystatechange = xhr.onreadystatechange;
-        xhr.onreadystatechange = function(event) {
-          if (xhr.readyState == 4) {
-            if (xhr.status == 200) {
-              ajaxEnd("end")();
-              //实际操作
-              //   result.innerHTML += xhr.responseText;
+        let _origin_onreadystatechange = me.onreadystatechange;
+        me.onreadystatechange = function(event) {
+          if (me.readyState == 4) {
+            if (me.status == 200) {
+              //TODO: 调用有误
+              _self.handleEvent(event);
             }
           }
-          //   if (_origin_onreadystatechange) {
-          //     _originOpen.apply(this, arguments);
-          //   }
-          //   if (this.readyState === 4) {
-          //     ajaxEnd('end')();
-          //   }
+          _origin_onreadystatechange &&
+            _origin_onreadystatechange.apply(this, arguments);
         };
-
-        // return _self.apply(this, arguments);
       }
+      return _self.originSend.apply(this, arguments);
     };
+  }
+  private handleEvent = self => event => {
+    let responseSize = null;
+    if (event.responseType) {
+      switch (event.responseType) {
+        case "json":
+          responseSize = JSON && JSON.stringify(event.response).length;
+          break;
+        case "blob":
+        case "moz-blob":
+          responseSize = event.response.size;
+        case "arraybufffer":
+          responseSize = event.response.byteLength;
+        case "document":
+          responseSize = this.getDocumentElement(event);
+          break;
+        default:
+          responseSize = event.response.length;
+      }
+    }
+    self.senInfo(event, responseSize);
+  };
+  private senInfo(event, responseSize) {
+    if (event.currentTarget) {
+      let currentTarget = event.currentTarget;
+      this.xhrInfo.type = "XHR";
+      this.xhrInfo.responseSize = responseSize;
+      this.xhrInfo.status = currentTarget.status;
+      this.xhrInfo.statusText = currentTarget.statusText;
+      this.xhrInfo.success = this.isXhrSuccess(currentTarget);
+      this.xhrInfo.duration = Date.now() - this._eagle_start_time;
+      this.xhrInfo.requestDate = (this.WALL as any).options.paramEncryption(
+        this.param
+      );
+
+      let errorInfo: BaseInfoInterface;
+      if (!this.xhrInfo.success) {
+        errorInfo = {
+          type: "XHRERROR",
+          info: {
+            ...this.xhrInfo
+          }
+        };
+      } else {
+        errorInfo = {
+          type: "XHR",
+          info: {
+            ...this.xhrInfo
+          }
+        };
+      }
+      this.WALL(errorInfo);
+    }
+  }
+  private getDocumentElement(event) {
+    return (
+      event.response.documentElement &&
+      event.response.documentElement.innerHTML &&
+      event.response.documentElement.innerHTML.length + 28
+    );
+  }
+  private isXhrSuccess(currentTarget) {
+    return (
+      (currentTarget.status >= 200 && currentTarget.status <= 206) ||
+      currentTarget.status === 304
+    );
   }
 
   public request() {}

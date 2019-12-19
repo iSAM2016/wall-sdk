@@ -1,6 +1,9 @@
 import Wall from "./index";
-var abc = 123;
 // h5  版本
 Wall.init({
-  token: 9999
+  token: String(9999),
+  // 请求参数加密
+  paramEncryption: value => {
+    return JSON.stringify(value);
+  }
 });

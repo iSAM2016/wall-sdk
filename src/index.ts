@@ -1,9 +1,9 @@
 import Application from "@app/core/wall";
 import { EngineInterface } from "@app/types";
-
 import TryCatch from "./integrations/trycatch";
+import Xhr from "./integrations/xhr";
 
-let wall = Application(); // app 是监听函数
+let wall = Application(); // TODO: app 的interface
 
 wall.use(function(event, next) {
   // console.log("我是中间件1");
@@ -16,7 +16,7 @@ wall.use(function(event, next) {
   next();
 });
 
-wall.listen([new TryCatch(wall)]);
+wall.listen([new TryCatch(wall), new Xhr(wall)]);
 
-(window as any).WALL = wall;
+(window as any).WALL = wall; //TODO: window声明
 export default wall;

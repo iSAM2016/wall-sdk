@@ -1,5 +1,6 @@
 export interface OptionsInterface {
-  token: number;
+  token: string;
+  paramEncryption: (any) => any;
   userId?: number;
   defaultIntegrations?: any;
 }

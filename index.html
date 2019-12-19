@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
   <title>Document</title>
-  <script src="https://securepubads.g.doubleclick.net/gpt/pubads_impl_rendering_2019121002.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -30,9 +30,10 @@
     </ul>
   </div>
 </body>
-
+<button id="btn">获取信息</button>
 
 </html>
+<!-- <script src="./dist/static/app.js"></script> -->
 <script>
   // console.log(e);
   /**
@@ -69,11 +70,11 @@
   /**
    * 4.promise 异常
    */
-  function main() {
-    new Promise(function (resolve, reject) {
-      reject("promise 异常");
-    }).then(() => console.log("Done!"));
-  }
+  // function main() {
+  //   new Promise(function (resolve, reject) {
+  //     reject("promise 异常");
+  //   }).then(() => console.log("Done!"));
+  // }
   // main()
 
   /**
@@ -91,6 +92,37 @@
    */
   // console.error("我是console.errror")
 
+  /**
+   * 7 异步错误
+   */
+  // setTimeout(() => {
+  //   Jartto;
+  // });
+
+  /**
+   *  8 xhr 错误
+   */
+  var btn = document.getElementById('btn')
+  btn.onclick = function () {
+    //创建xhr对象
+    var xhr;
+    if (window.XMLHttpRequest) {
+      xhr = new XMLHttpRequest();
+    } else {
+      xhr = new ActiveXObject('Microsoft.XMLHTTP');
+    }
+
+
+    xhr.open('post', 'test.php', true);
+    xhr.ontimeout = function () {
+      console.log('The request timed out.');
+    }
+    xhr.timeout = 1000;
+    xhr.send({
+      data: 34
+    });
+  }
+
   // window.onerror = function (message, source, lineno, colno, error) {
   //   console.log('捕获到异常：', {
   //     message,
@@ -101,8 +133,4 @@
   //   });
   //   return true;
   // }
-  // setTimeout(() => {
-  //   Jartto;
-  // });
 </script>
-<!-- <script src="./dist/static/app.js"></script> -->

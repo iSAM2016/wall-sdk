@@ -3,13 +3,13 @@
  * @Author: isam2016
  * @Date: 2019-12-19 14:42:13
  * @Last Modified by: isam2016
- * @Last Modified time: 2019-12-19 14:43:07
+ * @Last Modified time: 2019-12-19 15:22:10
  */
 import { BaseInfoInterface, EngineInterface } from "@app/types";
 
 class TryCatch implements EngineInterface {
   WALL: Function;
-  // 注册发动机 TODO: wall
+  // 注册发动机 TODO: wall 的interface
   constructor(wall: Function) {
     this.WALL = wall;
     this.createCustomEvent();
@@ -25,12 +25,13 @@ class TryCatch implements EngineInterface {
   private createCustomEvent() {
     let self = this;
     (self.WALL as any).createCustomEvent = message => {
-      self.WALL({
+      let errorInfo: BaseInfoInterface = {
         type: "CUSTOMERROR",
         info: {
           message
         }
-      });
+      };
+      self.WALL(errorInfo);
     };
   }
   private changeRriginAddEventListener() {

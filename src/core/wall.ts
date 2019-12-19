@@ -35,6 +35,10 @@ function Application() {
     // 首次执行;
     next();
   }
+  app.options = {
+    token: "",
+    paramEncryption: any => any
+  };
   app.routes = [];
   // 中间件
   app.use = (handler: Function) => {
@@ -47,7 +51,8 @@ function Application() {
 
   // 初始化参数
   app.init = (options: OptionsInterface) => {
-    // console.log(options);
+    // TODO: 参数校验
+    app.options = options;
   };
   return app;
 }
