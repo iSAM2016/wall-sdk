@@ -3,7 +3,8 @@
  * @Author: isam2016
  * @Date: 2019-12-19 14:48:02
  * @Last Modified by: isam2016
- * @Last Modified time: 2019-12-19 15:22:55
+ * @Last Modified time: 2019-12-20 17:15:45
+ * TODO: fetch
  */
 import {
   XhrInfoInterface,
@@ -14,7 +15,7 @@ import {
 
 class Xhr implements EngineInterface {
   private readonly xhr = window.XMLHttpRequest;
-  private originOpen: Function = this.xhr.prototype.open;
+  private originOpen = this.xhr.prototype.open;
   private originSend: Function = this.xhr.prototype.send;
   private eventListenerMethods: Array<String> = ["load", "error", "abort"];
   private _eagle_start_time: number;
@@ -37,7 +38,7 @@ class Xhr implements EngineInterface {
         url,
         method,
         info: {},
-        type: "XHR",
+        type: "BEHAVIORXHR",
         status: null
       };
       return _self.originOpen.apply(this, arguments);
@@ -94,7 +95,7 @@ class Xhr implements EngineInterface {
   private senInfo(event, responseSize) {
     if (event.currentTarget) {
       let currentTarget = event.currentTarget;
-      this.xhrInfo.type = "XHR";
+      this.xhrInfo.type = "BEHAVIORXHR";
       this.xhrInfo.responseSize = responseSize;
       this.xhrInfo.status = currentTarget.status;
       this.xhrInfo.statusText = currentTarget.statusText;
@@ -112,7 +113,7 @@ class Xhr implements EngineInterface {
         };
       } else {
         errorInfo = {
-          type: "XHR",
+          type: "BEHAVIORXHR",
           info: {
             ...this.xhrInfo
           }

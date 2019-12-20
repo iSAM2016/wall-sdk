@@ -4,7 +4,8 @@
     "private": true,
     "dependencies": {
         "@babel/plugin-transform-runtime": "^7.3.4",
-        "babel-polyfill": "^6.26.0"
+        "babel-polyfill": "^6.26.0",
+        "localforage": "^1.7.3"
     },
     "scripts": {
         "start": "export  NODE_ENV=dev && webpack-dev-server  --config build/webpack.dev.js",

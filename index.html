@@ -15,22 +15,23 @@
   <div>
     <pre id="info"></pre>
   </div>
-  <img
-    src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30140.jpeg"
-    alt="" />
+  <!-- <img
+    src="https://cdn2.jianshu.io/shakare/_next/static/images/note_page_right_sidebar_ad-e0971bad78fc240eee9de382a30140.jpeg"
+    alt="" /> -->
 
-  <div>
+  <!-- <div>
     <img
       src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30147.jpeg"
       alt="" />
     <ul>
       <img
-        src="https://cdn2.jianshu.io/shakespeare/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a30144.jpeg"
+        src="https://cdn2.jianshu.io/shakesre/_next/static/images/note_page_right_sidebar_ad-e09371bad78fc240eee9de382a301456.jpeg"
         alt="" />
     </ul>
-  </div>
+  </div> -->
 </body>
 <button id="btn">获取信息</button>
+<button> clickpath</button>
 
 </html>
 <!-- <script src="./dist/static/app.js"></script> -->
@@ -63,19 +64,19 @@
    *
    */
   // 异步错误
-  // setTimeout(() => {
-  //   console.log(o)
-  // });
+  setTimeout(() => {
+    console.log(o)
+  });
 
   /**
    * 4.promise 异常
    */
-  // function main() {
-  //   new Promise(function (resolve, reject) {
-  //     reject("promise 异常");
-  //   }).then(() => console.log("Done!"));
-  // }
-  // main()
+  function main() {
+    new Promise(function (resolve, reject) {
+      reject("promise 异常");
+    }).then(() => console.log("Done!"));
+  }
+  main()
 
   /**
    * 5.自定义 Error
@@ -102,26 +103,26 @@
   /**
    *  8 xhr 错误
    */
-  var btn = document.getElementById('btn')
-  btn.onclick = function () {
-    //创建xhr对象
-    var xhr;
-    if (window.XMLHttpRequest) {
-      xhr = new XMLHttpRequest();
-    } else {
-      xhr = new ActiveXObject('Microsoft.XMLHTTP');
-    }
+  // var btn = document.getElementById('btn')
+  // btn.onclick = function () {
+  //   //创建xhr对象
+  //   var xhr;
+  //   if (window.XMLHttpRequest) {
+  //     xhr = new XMLHttpRequest();
+  //   } else {
+  //     xhr = new ActiveXObject('Microsoft.XMLHTTP');
+  //   }
 
 
-    xhr.open('post', 'test.php', true);
-    xhr.ontimeout = function () {
-      console.log('The request timed out.');
-    }
-    xhr.timeout = 1000;
-    xhr.send({
-      data: 34
-    });
-  }
+  //   xhr.open('post', 'test.php', true);
+  //   xhr.ontimeout = function () {
+  //     console.log('The request timed out.');
+  //   }
+  //   xhr.timeout = 1000;
+  //   xhr.send({
+  //     data: 34
+  //   });
+  // }
 
   // window.onerror = function (message, source, lineno, colno, error) {
   //   console.log('捕获到异常：', {

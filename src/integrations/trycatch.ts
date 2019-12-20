@@ -3,7 +3,7 @@
  * @Author: isam2016
  * @Date: 2019-12-19 14:42:13
  * @Last Modified by: isam2016
- * @Last Modified time: 2019-12-19 15:22:10
+ * @Last Modified time: 2019-12-20 17:48:48
  */
 import { BaseInfoInterface, EngineInterface, AppInterface } from "@app/types";
 
@@ -131,7 +131,7 @@ class TryCatch implements EngineInterface {
       e.preventDefault();
       let reason = e.reason;
       let errorInfo: BaseInfoInterface = {
-        type: "NORMALERROR",
+        type: "PROMISEERROR",
         info: {
           message: reason
         }

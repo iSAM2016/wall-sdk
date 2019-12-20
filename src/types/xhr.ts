@@ -1,7 +1,7 @@
 import { BaseInfoInterface } from "./baseInfo";
 
 export interface XhrInfoInterface extends BaseInfoInterface {
-  type: "XHR";
+  type: "BEHAVIORXHR";
   info: object;
   url: string;
   method: Function;
@@ -10,5 +10,5 @@ export interface XhrInfoInterface extends BaseInfoInterface {
   duration?: number;
   statusText?: string;
   responseSize?: string;
-  requestDate?: object; //TODO: 加密方法
+  requestDate?: object;
 }

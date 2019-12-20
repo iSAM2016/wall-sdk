@@ -26,4 +26,4 @@ npm run build:deploy 打包
 
 ## todo
 
-//TODO: 一、崩溃和卡顿 错误上报
+//TODO: 一、崩溃和卡顿 fetch

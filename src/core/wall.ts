@@ -12,8 +12,7 @@ import {
 let Application = <ApplicationInterface>function() {
   //   最常用的是向 event 添加东西
   let app = <AppInterface>function(event: BaseInfoInterface) {
-    // createTime: +new Date(),
-    // 计数器
+    event.options = app.options;
     let index: number = 0;
     let next: NextInterface = (error?: string) => {
       let layer: MiddleOptionsInterface = app.routes[index++];
@@ -41,6 +40,7 @@ let Application = <ApplicationInterface>function() {
   };
   app.options = {
     token: "",
+    frequency: 1,
     paramEncryption: any => any
   };
   app.routes = [];
@@ -58,8 +58,7 @@ let Application = <ApplicationInterface>function() {
   };
   // 初始化参数
   app.init = (options: OptionsInterface) => {
-    // TODO: 参数校验
-    app.options = options;
+    app.options = { ...app.options, ...options };
   };
   return app;
 };
