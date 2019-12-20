@@ -1,29 +1,33 @@
 import {
-  BaseInfoInterface,
+  AppInterface,
+  NextInterface,
+  EngineInterface,
   OptionsInterface,
-  EngineInterface
+  BaseInfoInterface,
+  MiddleHandlerInterface,
+  MiddleOptionsInterface,
+  ApplicationInterface
 } from "@app/types";
 
-function Application() {
+let Application = <ApplicationInterface>function() {
   //   最常用的是向 event 添加东西
-  function app(event: BaseInfoInterface) {
+  let app = <AppInterface>function(event: BaseInfoInterface) {
     // createTime: +new Date(),
     // 计数器
     let index: number = 0;
-    function next(error?) {
-      let layer = app.routes[index++];
+    let next: NextInterface = (error?: string) => {
+      let layer: MiddleOptionsInterface = app.routes[index++];
       if (layer) {
         if (error) {
           //  如果有错误，需要走错误接口
           if (layer.method === "middle" && layer.handler.length === 3) {
-            return layer.handler(error, event, next);
+            return layer.handler(event, next, error);
           } else {
             next(error);
           }
         } else {
           if (layer.method === "middle") {
             if (layer.pathname === "/") {
-              //  把控制交给了用户（实际上是吧next 给了用户）
               return layer.handler(event, next);
             } else {
               next();
@@ -31,30 +35,33 @@ function Application() {
           }
         }
       }
-    }
+    };
     // 首次执行;
     next();
-  }
+  };
   app.options = {
     token: "",
     paramEncryption: any => any
   };
   app.routes = [];
   // 中间件
-  app.use = (handler: Function) => {
-    app.routes.push({ method: "middle", pathname: "/", handler });
+  app.use = (handler: MiddleHandlerInterface) => {
+    app.routes.push({
+      method: "middle",
+      pathname: "/",
+      handler
+    } as MiddleOptionsInterface);
     return this;
   };
   app.listen = function(instance: Array<EngineInterface>) {
     // 待定
   };
-
   // 初始化参数
   app.init = (options: OptionsInterface) => {
     // TODO: 参数校验
     app.options = options;
   };
   return app;
-}
+};
 
 export default Application;

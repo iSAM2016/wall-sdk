@@ -5,10 +5,14 @@
  * @Last Modified by: isam2016
  * @Last Modified time: 2019-12-19 15:22:55
  */
-import { XhrInfoInterface, BaseInfoInterface } from "@app/types";
-//https://gist.github.com/codecorsair/e14ec90cee91fa8f56054afaa0a39f13
+import {
+  XhrInfoInterface,
+  BaseInfoInterface,
+  AppInterface,
+  EngineInterface
+} from "@app/types";
 
-class Xhr {
+class Xhr implements EngineInterface {
   private readonly xhr = window.XMLHttpRequest;
   private originOpen: Function = this.xhr.prototype.open;
   private originSend: Function = this.xhr.prototype.send;
@@ -16,9 +20,9 @@ class Xhr {
   private _eagle_start_time: number;
   private param: object;
   private xhrInfo: XhrInfoInterface;
-  WALL: Function;
+  WALL: AppInterface;
 
-  constructor(wall: Function) {
+  constructor(wall: AppInterface) {
     this.WALL = wall;
     this.xhropen();
     this.xhrsend();
@@ -96,9 +100,7 @@ class Xhr {
       this.xhrInfo.statusText = currentTarget.statusText;
       this.xhrInfo.success = this.isXhrSuccess(currentTarget);
       this.xhrInfo.duration = Date.now() - this._eagle_start_time;
-      this.xhrInfo.requestDate = (this.WALL as any).options.paramEncryption(
-        this.param
-      );
+      this.xhrInfo.requestDate = this.WALL.options.paramEncryption(this.param);
 
       let errorInfo: BaseInfoInterface;
       if (!this.xhrInfo.success) {
