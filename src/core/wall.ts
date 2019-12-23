@@ -56,6 +56,7 @@ let Application = <ApplicationInterface>function() {
   app.listen = function(instance: Array<EngineInterface>) {
     // 待定
   };
+
   // 初始化参数
   app.init = (options: OptionsInterface) => {
     app.options = { ...app.options, ...options };

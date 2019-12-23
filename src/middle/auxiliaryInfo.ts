@@ -1,11 +1,10 @@
 import { BaseInfoInterface, NextInterface } from "@app/types";
+import { randomKey } from "@app/util";
 export const auxiliaryInfo = (
   event: BaseInfoInterface,
   next: NextInterface
 ) => {
-  event.key = Math.random()
-    .toString(36)
-    .substring(2);
+  event.key = randomKey(32);
   event.createTime = +new Date();
   next();
 };
