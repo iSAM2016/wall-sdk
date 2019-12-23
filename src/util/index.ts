@@ -1,3 +1,6 @@
+import * as localForage from "localforage";
+import { NodeInterface, BaseInfoInterface } from "@app/types";
+
 export const addEventListener = (name, callback, useCapture) => {
   if (window.addEventListener) {
     return window.addEventListener(name, callback, useCapture);
@@ -34,3 +37,104 @@ export const resolvePerformanceTiming = timing => ({
 
 export const resolveEntries = entries =>
   entries.map(item => resolvePerformanceTiming(item));
+
+export const randomKey = (min: number, max?) => {
+  let str: string = "",
+    range: number = min,
+    pos: number = 0,
+    arr = [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w",
+      "x",
+      "y",
+      "z",
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z"
+    ];
+
+  for (var i = 0; i < range; i++) {
+    pos = Math.round(Math.random() * (arr.length - 1));
+    str += arr[pos];
+  }
+  return str;
+};
+
+//防止用户清空indexdb 每次都从新读取 LINLNODEIDS
+export const createHead = listnode => {
+  return localForage.getItem("LINLNODEIDS").then(value => {
+    listnode.initLinkNode(value);
+  });
+};
+
+// 设置value
+export const setLocalEvent = (event: BaseInfoInterface, listnode) => {
+  return localForage
+    .setItem(event.key, JSON.stringify(event))
+    .then(value => {
+      //更新ids
+      return listnode.insert(event.key);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+// 更新ids
+export const updateEventIds = (head: NodeInterface) => {
+  localForage.setItem("LINLNODEIDS", JSON.stringify(head));
+};

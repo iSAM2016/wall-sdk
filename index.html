@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
   <title>Document</title>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
 </head>
 
 <body>
@@ -64,19 +64,19 @@
    *
    */
   // 异步错误
-  setTimeout(() => {
-    console.log(o)
-  });
+  // setTimeout(() => {
+  //   console.log(o)
+  // });
 
   /**
    * 4.promise 异常
    */
-  function main() {
-    new Promise(function (resolve, reject) {
-      reject("promise 异常");
-    }).then(() => console.log("Done!"));
-  }
-  main()
+  // function main() {
+  //   new Promise(function (resolve, reject) {
+  //     reject("promise 异常");
+  //   }).then(() => console.log("Done!"));
+  // }
+  // main()
 
   /**
    * 5.自定义 Error

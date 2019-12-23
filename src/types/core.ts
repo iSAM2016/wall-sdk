@@ -29,3 +29,8 @@ export interface MiddleHandlerInterface {
 export interface NextInterface {
   (error?: string): void;
 }
+
+export interface NodeInterface {
+  next: null | Object;
+  key: string;
+}
