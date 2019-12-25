@@ -8,6 +8,7 @@ import {
   MiddleOptionsInterface,
   ApplicationInterface
 } from "@app/types";
+import { randomKey, getDevice } from "@app/util";
 
 let Application = <ApplicationInterface>function() {
   //   最常用的是向 event 添加东西
@@ -40,6 +41,7 @@ let Application = <ApplicationInterface>function() {
   };
   app.options = {
     token: "",
+    origin: "",
     frequency: 1,
     paramEncryption: any => any
   };
@@ -53,12 +55,22 @@ let Application = <ApplicationInterface>function() {
     } as MiddleOptionsInterface);
     return this;
   };
-  app.listen = function(instance: Array<EngineInterface>) {
-    // 待定
-  };
+  app.listen = function(instance: Array<EngineInterface>) {};
 
   // 初始化参数
   app.init = (options: OptionsInterface) => {
+    //设置userid
+    if (!options.userId) {
+      let randomUserID: string;
+      let localWallUserID: string = localStorage.getItem("WALLUSERID");
+      if (!localWallUserID) {
+        randomUserID = "wall_" + randomKey(32);
+        localStorage.setItem("WALLUSERID", randomUserID);
+      } else {
+        randomUserID = localWallUserID;
+      }
+      options.userId = randomUserID;
+    }
     app.options = { ...app.options, ...options };
   };
   return app;

@@ -10,9 +10,10 @@ wall-sdk 是 wall 监听系统的前端 SDK，负责收集前端信息
 4.  适用 `vue` `react` 微信小程序
 5.  监控: 普通错误，primose 异常， console.error, 图片加载错误， xhr 错误，fetch 错误
 6.  可以上传自定义错误
-7.  对 ERROR 设置上报频率
-8.  performance 页面性能数据
-9.  TS 搭建
+7.  可以自定义用户行为//TODO: demo
+8.  对 ERROR 设置上报频率
+9.  performance 页面性能数据
+10. TS 搭建
 
 ## npm 引用
 
@@ -65,19 +66,11 @@ npm run build:deploy
 
 ### <a id="event">event</a>
 
-## todo
-
-TODO:
+## //TODO:
 
 1. 崩溃和卡顿
-2. fetch
-3. sourceMap
-4. axios JDK 需要放在 axios 之后，不然 ajax 错误性信息无法采集
-5. 对比三款 sdk 之间的差异
-6. domin
-7. ua 信息
-8. webpack 插件
-9. userid
-10. 测试
-11. 用户访问应用次数记录统计(记录第一次加载， 记录刷新) session
-12. 每个页面首次加载时间统计(记录第一次加载)
+2. sourceMap
+3. webpack 插件
+4. 测试
+5. 用户访问应用次数记录统计(记录第一次加载， 记录刷新) session pv
+6. 每个页面首次加载时间统计(记录第一次加载) uv

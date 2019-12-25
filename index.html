@@ -32,9 +32,12 @@
 
 </html>
 <!-- <script src="./dist/app.js"></script> -->
-<script src="https://unpkg.com/axios/dist/axios.i.js"></script>
+<!-- <script src="https://unpkg.com/axios/dist/axios.i.js"></script> -->
 <script>
-    console.log(e);
+    fetch('/').then(function (response) {
+        return response.json();
+    }).then(function (data) {}).catch(function (err) {});
+    // console.log(e);
     /**
      * 1.基本错误
      */
