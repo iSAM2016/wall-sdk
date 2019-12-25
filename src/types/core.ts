@@ -11,7 +11,12 @@ export interface AppInterface {
     init(options: OptionsInterface): void;
     use(handler: MiddleHandlerInterface): void;
     listen(instance: Array<EngineInterface>): void;
-    createCustomEvent(message: string, content: Object): void; // 自定义错误
+    createCustomErrorEvent(message: string, content: Object): void; // 自定义错误
+    createCustomBehaviorEvent(
+        behaviorType: string,
+        behaviorResult: object,
+        message: string
+    );
 }
 export interface MiddleOptionsInterface {
     method: string;

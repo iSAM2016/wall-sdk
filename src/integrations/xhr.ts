@@ -7,6 +7,7 @@
  * TODO: fetch
  */
 import {
+    XhrInterface,
     XhrInfoInterface,
     EventInterface,
     AppInterface,
@@ -25,7 +26,9 @@ class Xhr implements EngineInterface {
     ];
     private _eagle_start_time: number;
     private param: object;
-    private xhrInfo: XhrInfoInterface;
+    private xhrInfo: XhrInfoInterface = {
+        message: ''
+    };
     WALL: AppInterface;
 
     constructor(wall: AppInterface) {
@@ -40,13 +43,10 @@ class Xhr implements EngineInterface {
         let _self = this;
         _self.xhr.prototype.open = function(method, url) {
             _self.xhrInfo = {
-                type: 'BEHAVIORXHR',
+                message: '异步请求',
                 url,
                 method,
-                status: null,
-                info: {
-                    message: ''
-                }
+                status: null
             };
             return _self.originOpen.apply(this, arguments);
         };
@@ -115,11 +115,15 @@ class Xhr implements EngineInterface {
             this.xhrInfo.requestDate = this.WALL.options.paramEncryption(
                 this.param
             );
+            let xhrAllInfo: XhrInterface = {
+                type: 'BEHAVIORXHR',
+                info: this.xhrInfo
+            };
 
             if (!this.xhrInfo.success) {
-                this.xhrInfo.type = 'XHRERROR';
+                xhrAllInfo.type = 'XHRERROR';
             }
-            this.WALL(this.xhrInfo);
+            this.WALL(xhrAllInfo);
         }
     }
     private getDocumentElement(event) {

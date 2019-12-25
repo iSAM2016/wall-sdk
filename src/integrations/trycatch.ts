@@ -29,7 +29,10 @@ class TryCatch implements EngineInterface {
      * 自定义错误
      */
     private createCustomEvent(): void {
-        this.WALL.createCustomEvent = (message: string, content: Object) => {
+        this.WALL.createCustomErrorEvent = (
+            message: string,
+            content: Object
+        ) => {
             let sourceError: CustomErrorInterface = {
                 message: '静态资源加载错误',
                 content
@@ -176,8 +179,6 @@ class TryCatch implements EngineInterface {
             'error',
             function(e) {
                 let typeName: string = (e.target as any).localName;
-                console.log(99);
-                console.log(e);
                 let sourceUrl: string = '';
                 if (typeName === 'link') {
                     sourceUrl = (e.target as any).href;

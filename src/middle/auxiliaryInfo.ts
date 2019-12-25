@@ -29,4 +29,3 @@ export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
 
     next();
 };
-``;

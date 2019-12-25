@@ -13,3 +13,8 @@ export interface XpathInterface extends InfoInterface {
     placeholder: string;
     className: string;
 }
+export interface CustomBehavior extends InfoInterface {
+    message: string;
+    behaviorType: string;
+    behaviorResult: object;
+}

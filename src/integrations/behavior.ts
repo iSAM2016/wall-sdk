@@ -10,6 +10,7 @@ import {
     EngineInterface,
     AppInterface,
     XpathInterface,
+    CustomBehavior,
     URLInfoInterface
 } from '@app/types';
 import { addEventListener } from '../util';
@@ -19,6 +20,7 @@ class Behavior implements EngineInterface {
         this.WALL = wall;
         this.listenerClick();
         this.listenerHashChange();
+        this.customBehavior();
     }
 
     private listenerClick() {
@@ -125,6 +127,31 @@ class Behavior implements EngineInterface {
             },
             false
         );
+    }
+
+    public customBehavior() {
+        /**
+         * 用户自定义行为
+         * @param behaviorType  行为类型
+         * @param behaviorResult  行为结果
+         * @param description 行为描述
+         */
+        this.WALL.createCustomBehaviorEvent = (
+            behaviorType: string,
+            behaviorResult: object,
+            message: string
+        ) => {
+            let customBehavior: CustomBehavior = {
+                message,
+                behaviorType,
+                behaviorResult
+            };
+            let behaviorInfo: EventInterface = {
+                type: 'BEHAVIORCUSTOM',
+                info: customBehavior
+            };
+            self.WALL(behaviorInfo);
+        };
     }
 }
 

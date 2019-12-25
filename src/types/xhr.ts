@@ -1,11 +1,15 @@
 import { EventInterface, InfoInterface } from './baseInfo';
 
-export interface XhrInfoInterface extends EventInterface {
+export interface XhrInterface extends EventInterface {
     type: 'BEHAVIORXHR' | 'XHRERROR';
     info: InfoInterface;
-    url: string;
-    method: Function;
-    status: number;
+}
+
+export interface XhrInfoInterface extends InfoInterface {
+    message: string;
+    url?: string;
+    method?: Function;
+    status?: number;
     success?: boolean;
     duration?: number;
     statusText?: string;
