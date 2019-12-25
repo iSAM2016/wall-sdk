@@ -4,16 +4,15 @@ wall-sdk 是 wall 监听系统的前端 SDK，负责收集前端信息
 
 ## 主要性能
 
-1.  适用 `vue` `react` 微信小程序
-2.  采用中间件思想，将信息集中到[event](#event) 中
-3.  监控: 普通错误，primose 异常， console.error, 图片加载错误， xhr 错误，fetch 错误
-4.  可以上传自定义错误
-5.  监听用户行为：用户点击，路由改变，用户请求， 资源加载
-6.  [indexDB](https://github.com/xmoyking/localForage-cn) 存储，可以追寻用户行为路径，可以追踪到错误发生之前的用户行为
-7.  采用 express 中间件， 可以快速处理 [event](#event)
-8.  对 ERROR 设置上报频率
-9.  performance 页面性能数据
-10. TS 搭建
+1.  采用 express 中间件， 可以快速处理 [event](#event)
+2.  监听用户行为：用户点击，路由改变，用户请求， 资源加载
+3.  [indexDB](https://github.com/xmoyking/localForage-cn) 存储，可以追寻用户行为路径，可以追踪到错误发生之前的用户行为
+4.  适用 `vue` `react` 微信小程序
+5.  监控: 普通错误，primose 异常， console.error, 图片加载错误， xhr 错误，fetch 错误
+6.  可以上传自定义错误
+7.  对 ERROR 设置上报频率
+8.  performance 页面性能数据
+9.  TS 搭建
 
 ## npm 引用
 
@@ -68,4 +67,15 @@ npm run build:deploy
 
 ## todo
 
-//TODO: 一、崩溃和卡顿 fetch sourceMap\axios JDK 需要放在 axios 之后，不然 ajax 错误性信息无法采集
+TODO:
+
+1. 崩溃和卡顿
+2. fetch
+3. sourceMap
+4. axios JDK 需要放在 axios 之后，不然 ajax 错误性信息无法采集
+5. 对比三款 sdk 之间的差异
+6. domin
+7. ua 信息
+8. webpack 插件
+9. userid
+10. 测试

@@ -3,7 +3,7 @@ import {
   NextInterface,
   EngineInterface,
   OptionsInterface,
-  BaseInfoInterface,
+  EventInterface,
   MiddleHandlerInterface,
   MiddleOptionsInterface,
   ApplicationInterface
@@ -11,7 +11,7 @@ import {
 
 let Application = <ApplicationInterface>function() {
   //   最常用的是向 event 添加东西
-  let app = <AppInterface>function(event: BaseInfoInterface) {
+  let app = <AppInterface>function(event: EventInterface) {
     event.options = app.options;
     let index: number = 0;
     let next: NextInterface = (error?: string) => {

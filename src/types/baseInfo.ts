@@ -1,23 +1,30 @@
-import { OptionsInterface } from "./options";
+import { OptionsInterface } from './options';
+import { DeviceInterface } from './device';
 export type EventType = {
-  NORMALERROR: "NORMALERROR"; // 普通错误
-  PROMISEERROR: "PROMISEERROR"; // peomise error
-  CONSOLEERRR: "CONSOLEERRR"; // console.error
-  CUSTOMERROR: "CUSTOMERROR"; // 用户自定义错误
-  IMAGEERROR: "IMAGEERROR"; // 图片加载错误
-  XHRERROR: "XHRERROR"; // xhrerror
-  BEHAVIORCLICK: "BEHAVIORCLICK"; // 用户点击
-  BEHAVIORURLCHANGE: "BEHAVIORURLCHANGE"; // 路由改变
-  BEHAVIORXPATH: "BEHAVIORXPATH"; // 用户点击
-  BEHAVIORXHR: "BEHAVIORXHR"; // 用户请求
-  RESCOURCES: "RESCOURCES"; // 资源
+    NORMALERROR: 'NORMALERROR'; // 普通错误
+    PROMISEERROR: 'PROMISEERROR'; // peomise error
+    CONSOLEERRR: 'CONSOLEERRR'; // console.error
+    CUSTOMERROR: 'CUSTOMERROR'; // 用户自定义错误
+    SOURCEERROR: 'SOURCEERROR'; // 静态资源img script link加载错误
+    XHRERROR: 'XHRERROR'; // xhrerror
+    BEHAVIORCLICK: 'BEHAVIORCLICK'; // 用户点击
+    BEHAVIORURLCHANGE: 'BEHAVIORURLCHANGE'; // 路由改变
+    BEHAVIORXPATH: 'BEHAVIORXPATH'; // 用户点击
+    BEHAVIORXHR: 'BEHAVIORXHR'; // 用户请求
+    RESCOURCES: 'RESCOURCES'; // 资源
 };
 
-export interface BaseInfoInterface {
-  info: any;
-  type: keyof EventType;
-  key?: string;
-  options?: OptionsInterface;
-  isUpload?: boolean; // 是否上报
-  createTime?: number;
+export interface EventInterface {
+    type: keyof EventType;
+    info: InfoInterface; // 业务信息 error 信息 行为信息
+    key?: string; // 每个event 都有自己的 唯一key
+    isUpload?: boolean; // 是否立即上报
+    currentUrl?: string; // 页面url // TODO: 获取页面唯一标识
+    createTime?: number; // event创建时间
+    options?: OptionsInterface; // wall 初始化信息
+    deviceInfo?: DeviceInterface;
+}
+
+export interface InfoInterface {
+    message: string;
 }
