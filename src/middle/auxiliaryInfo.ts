@@ -1,5 +1,6 @@
 import { EventInterface, NextInterface, DeviceInterface } from "@app/types";
 import { randomKey, getDevice } from "@app/util";
+let Resource = require("../../package.json");
 
 export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
   console.log(event);
@@ -17,7 +18,7 @@ export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
     os: os + (osVersion ? String(osVersion) : "")
   };
   event.key = randomKey(32);
-  event.version = 0.1;
+  event.version = Resource.version;
   event.createTime = +new Date();
   event.deviceInfo = deviceInfo;
   event.currentUrl = encodeURIComponent(window.location.href); // 页面url

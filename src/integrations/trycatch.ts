@@ -9,6 +9,7 @@ import {
   EventInterface,
   EngineInterface,
   AppInterface,
+  NormalErrorInterface,
   SourceErrorInterface,
   CustomErrorInterface,
   PromiseErrorInterface
@@ -57,21 +58,25 @@ class TryCatch implements EngineInterface {
       return originAddEventListener.call(this, type, wrappedListener, options);
     };
   }
-  //重写error //TODO:
+  //重写error
   private onError(): void {
     let originHandleError = window.onerror;
     window.onerror = (...arg) => {
       let [errorMessage, scriptURI, lineNumber, columnNumber, errorObj] = arg;
-      // let errorInfo: EventInterface = {
-      //     type: 'NORMALERROR'
-      //     // info: {}
-      // };
-      // errorInfo.info._errorMessage = errorMessage;
-      // errorInfo.info._scriptURI = scriptURI;
-      // errorInfo.info._lineNumber = lineNumber;
-      // errorInfo.info._columnNumber = columnNumber;
-      // errorInfo = this.formatError(errorObj, errorInfo);
-      // this.WALL(errorInfo);
+      let normalError: NormalErrorInterface = {
+        message: "异常",
+        errorMessage: String(errorMessage),
+        scriptURI,
+        lineNumber,
+        columnNumber
+      };
+
+      normalError = this.formatError(errorObj, normalError);
+      let errorInfo: EventInterface = {
+        type: "NORMALERROR",
+        info: normalError
+      };
+      this.WALL(errorInfo);
       // return true; 当返回true 异常才不会向上抛出
       originHandleError && originHandleError.apply(window, arg);
     };
@@ -90,26 +95,23 @@ class TryCatch implements EngineInterface {
       return {
         ...errorInfo,
         ...{
-          info: {
-            row: Number(row || stackRow),
-            col: Number(col || stackCol),
-            name,
-            message,
-            content,
-            resourceUrl
-          }
+          errorMessage: message,
+          scriptURI: resourceUrl,
+          lineNumber: Number(row || stackRow),
+          columnNumber: Number(col || stackCol),
+          name,
+          content
         }
       };
     }
+
     return {
       ...errorInfo,
       ...{
-        info: {
-          row,
-          col,
-          name,
-          message
-        }
+        errorMessage: message,
+        lineNumber: row,
+        columnNumber: col,
+        name
       }
     };
   };
@@ -132,15 +134,11 @@ class TryCatch implements EngineInterface {
 
     return { content: stack, resourceUrl, stackRow, stackCol };
   }
-  // primose 异常 //TODO: 需要stak
+  // primose 异常
   private originOnunhandledrejection() {
     let originOnunhandledrejection = window.onunhandledrejection;
     window.onunhandledrejection = (...arg) => {
       let e = arg[0];
-      const error = e && e.reason;
-      const message = error.message || "";
-      const stack = error.stack || "";
-
       e.preventDefault();
 
       let promiseError: PromiseErrorInterface = {
