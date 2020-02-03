@@ -112,7 +112,6 @@ export const getDevice = (): DeviceInterface => {
         device.deviceName = deviceName.replace(/(^\s*)|(\s*$)/g, '');
     }
     // 浏览器模式, 获取浏览器信息
-    // TODO 需要补充更多的浏览器类型进来
     if (ua.indexOf('Mobile') == -1) {
         var agent = navigator.userAgent.toLowerCase();
         var regStr_ie = /msie [\d.]+;/gi;
@@ -153,7 +152,12 @@ export const getDevice = (): DeviceInterface => {
     // Export object
     return device;
 };
-
+export const debugLogger = info => {
+    // 只有在测试时才打印log
+    if (window.WALL_OPTIONS.isTest) {
+        console.info(info);
+    }
+};
 export const randomKey = (min: number, max?: number) => {
     let str: string = '',
         range: number = min,

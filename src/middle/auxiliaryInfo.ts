@@ -1,8 +1,8 @@
-const PACKAGE = require('../../package.json');
-import { randomKey, getDevice } from '@app/util';
 import { EventInterface, NextInterface, DeviceInterface } from '@app/types';
+import { randomKey, getDevice } from '@app/util';
+const Resource = require('../../package.json');
+
 export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
-    console.log(event);
     let {
         deviceName,
         os,
@@ -16,18 +16,11 @@ export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
         browserVersion,
         os: os + (osVersion ? String(osVersion) : '')
     };
-    // this.pageKey = utils.getPageKey(); //TODO: 用于区分页面，所对应唯一的标识，每个新页面对应一个值
     event.key = randomKey(32);
+    event.version = Resource.version;
     event.createTime = +new Date();
     event.deviceInfo = deviceInfo;
     event.currentUrl = encodeURIComponent(window.location.href); // 页面url
-    event.version = PACKAGE.version;
-
-    // TODO 位置信息, 待处理
-    // this.monitorIp = ''; // 用户的IP地址
-    // this.country = 'china'; // 用户所在国家
-    // this.province = ''; // 用户所在省份
-    // this.city = ''; // 用户所在城市
 
     next();
 };

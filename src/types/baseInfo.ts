@@ -1,17 +1,23 @@
 import { OptionsInterface } from './options';
 import { DeviceInterface } from './device';
 export type EventType = {
-    NORMALERROR: 'NORMALERROR'; // 普通错误
-    PROMISEERROR: 'PROMISEERROR'; // peomise error
-    CONSOLEERRR: 'CONSOLEERRR'; // console.error
-    CUSTOMERROR: 'CUSTOMERROR'; // 用户自定义错误
-    SOURCEERROR: 'SOURCEERROR'; // 静态资源img script link加载错误
-    XHRERROR: 'XHRERROR'; // xhrerror
-    BEHAVIORCLICK: 'BEHAVIORCLICK'; // 用户点击
-    BEHAVIORURLCHANGE: 'BEHAVIORURLCHANGE'; // 路由改变
-    BEHAVIORXPATH: 'BEHAVIORXPATH'; // 用户点击
-    BEHAVIORXHR: 'BEHAVIORXHR'; // 用户请求
-    BEHAVIORCUSTOM: 'BEHAVIORCUSTOM'; // 用户自定行为
+    ERROR_XHR: 'ERROR_XHR'; // xhrerror
+    ERROR_LINK: 'ERROR_LINK'; //静态资源 link加载错误
+    ERROR_IMAGE: 'ERROR_IMAGE'; //静态资源 img
+    ERROR_SCRIPT: 'ERROR_SCRIPT'; // 静态资源 script加载错误
+    ERROR_CUSTOM: 'ERROR_CUSTOM'; // 用户自定义错误
+    ERROR_RUNTIME: 'ERROR_RUNTIME'; // 普通错误
+    ERROR_PROMISE: 'ERROR_PROMISE'; // peomise error
+    ERROR_CONSOLE: 'ERROR_CONSOLE'; // console.error
+
+    BEHAVIOR_XHR: 'BEHAVIOR_XHR'; // 用户请求
+    BEHAVIOR_CLICK: 'BEHAVIOR_CLICK'; // 用户点击
+    BEHAVIOR_XPATH: 'BEHAVIOR_XPATH'; // 用户点击
+    BEHAVIOR_FETCH: 'BEHAVIOR_FETCH'; // 用户请求
+    BEHAVIOR_CUSTOM: 'BEHAVIOR_CUSTOM'; // 用户自定行为
+    BEHAVIOR_DURATION: 'BEHAVIOR_DURATION'; // 用户停留时间
+    BEHAVIOR_URLCHANGE: 'BEHAVIOR_URLCHANGE'; // 路由改变
+
     RESCOURCES: 'RESCOURCES'; // 资源
 };
 

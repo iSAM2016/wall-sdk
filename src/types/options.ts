@@ -1,7 +1,8 @@
 export interface OptionsInterface {
-  token: string;
-  frequency: number;
-  paramEncryption: (any) => any;
-  userId?: number;
-  defaultIntegrations?: any;
+    token: string;
+    origin: string; // server 地址
+    frequency: number;
+    isTest?: boolean;
+    userId?: string;
+    defaultIntegrations?: any;
 }

@@ -1,7 +1,7 @@
 import { EventInterface, InfoInterface } from './baseInfo';
 
 export interface XhrInterface extends EventInterface {
-    type: 'BEHAVIORXHR' | 'XHRERROR';
+    type: 'BEHAVIOR_XHR' | 'ERROR_XHR';
     info: InfoInterface;
 }
 
@@ -15,4 +15,15 @@ export interface XhrInfoInterface extends InfoInterface {
     statusText?: string;
     responseSize?: string;
     requestDate?: object;
+}
+
+export interface FetchInterface extends EventInterface {
+    type: 'BEHAVIOR_FETCH';
+    info: {
+        message: string;
+        status: number;
+        duration: number;
+        url: string;
+        method: string;
+    };
 }

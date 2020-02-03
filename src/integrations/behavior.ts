@@ -10,21 +10,24 @@ import {
     EngineInterface,
     AppInterface,
     XpathInterface,
-    CustomBehavior,
-    URLInfoInterface
+    CustomBehavior
 } from '@app/types';
-import { addEventListener } from '../util';
+
+// 用户在线时长统计
+const OFFLINE_MILL = 15 * 60 * 1000; // 15分钟不操作认为不在线
+const SEND_MILL = 5 * 1000; // 每5s打点一次
 class Behavior implements EngineInterface {
     WALL: AppInterface;
     constructor(wall: AppInterface) {
         this.WALL = wall;
         this.listenerClick();
-        this.listenerHashChange();
         this.customBehavior();
     }
 
     private listenerClick() {
         let self = this;
+        // 记录开始时间
+        let lastTime = Date.now();
         document.addEventListener(
             'click',
             function(e: Event) {
@@ -47,10 +50,27 @@ class Behavior implements EngineInterface {
                         className
                     };
                     let behaviorInfo: EventInterface = {
-                        type: 'BEHAVIORXPATH',
+                        type: 'BEHAVIOR_XPATH',
                         info: xpathInfo
                     };
                     self.WALL(behaviorInfo);
+                    // 记录用户停留时间
+                    const now = Date.now();
+                    const duration = now - lastTime;
+                    if (duration > OFFLINE_MILL) {
+                        lastTime = Date.now();
+                    } else if (duration > SEND_MILL) {
+                        let durationInfo = {
+                            message: '用户停留时间',
+                            duration_ms: duration
+                        };
+                        let durationEvent: EventInterface = {
+                            type: 'BEHAVIOR_DURATION',
+                            info: durationInfo
+                        };
+                        lastTime = Date.now();
+                        self.WALL(durationEvent);
+                    }
                 }
             },
             false
@@ -80,54 +100,6 @@ class Behavior implements EngineInterface {
         }
         return xpath;
     };
-    /**
-     * hansh路由
-     */
-    private listenerHashChange() {
-        if (!('onhashchange' in window.document.body)) {
-            return false;
-        }
-        let self = this;
-        let URLInfo: URLInfoInterface = {
-            message: '用户页面跳转',
-            oldURL: '',
-            newURL: ''
-        };
-        let currentHashchangeTime: number = 0;
-        let currentPopchangeTime: number;
-
-        addEventListener(
-            'hashchange',
-            (e: HashChangeEvent) => {
-                currentHashchangeTime = +new Date();
-                URLInfo.oldURL = e.oldURL;
-                URLInfo.newURL = e.newURL;
-                return true;
-            },
-            false
-        );
-
-        addEventListener(
-            'popstate',
-            e => {
-                currentPopchangeTime = +new Date();
-                setTimeout(() => {
-                    if (!(currentPopchangeTime - currentHashchangeTime < 400)) {
-                        // behaviorInfo.info.message = { kl: 0 };
-                        console.log(e);
-                    }
-
-                    let behaviorInfo: EventInterface = {
-                        type: 'BEHAVIORURLCHANGE',
-                        info: URLInfo
-                    };
-
-                    self.WALL(behaviorInfo);
-                }, 500);
-            },
-            false
-        );
-    }
 
     public customBehavior() {
         /**
@@ -147,7 +119,7 @@ class Behavior implements EngineInterface {
                 behaviorResult
             };
             let behaviorInfo: EventInterface = {
-                type: 'BEHAVIORCUSTOM',
+                type: 'BEHAVIOR_CUSTOM',
                 info: customBehavior
             };
             self.WALL(behaviorInfo);

@@ -6,9 +6,11 @@
  * @Last Modified time: 2019-12-20 17:48:48
  */
 import {
+    EventType,
     EventInterface,
     EngineInterface,
     AppInterface,
+    NormalErrorInterface,
     SourceErrorInterface,
     CustomErrorInterface,
     PromiseErrorInterface
@@ -38,7 +40,7 @@ class TryCatch implements EngineInterface {
                 content
             };
             let errorInfo: EventInterface = {
-                type: 'CUSTOMERROR',
+                type: 'ERROR_CUSTOM',
                 info: sourceError
             };
             this.WALL(errorInfo);
@@ -69,7 +71,7 @@ class TryCatch implements EngineInterface {
             );
         };
     }
-    //重写error //TODO:
+    //重写error
     private onError(): void {
         let originHandleError = window.onerror;
         window.onerror = (...arg) => {
@@ -80,16 +82,20 @@ class TryCatch implements EngineInterface {
                 columnNumber,
                 errorObj
             ] = arg;
-            // let errorInfo: EventInterface = {
-            //     type: 'NORMALERROR'
-            //     // info: {}
-            // };
-            // errorInfo.info._errorMessage = errorMessage;
-            // errorInfo.info._scriptURI = scriptURI;
-            // errorInfo.info._lineNumber = lineNumber;
-            // errorInfo.info._columnNumber = columnNumber;
-            // errorInfo = this.formatError(errorObj, errorInfo);
-            // this.WALL(errorInfo);
+            let normalError: NormalErrorInterface = {
+                message: '异常',
+                errorMessage: String(errorMessage),
+                scriptURI,
+                lineNumber,
+                columnNumber
+            };
+
+            normalError = this.formatError(errorObj, normalError);
+            let errorInfo: EventInterface = {
+                type: 'ERROR_RUNTIME',
+                info: normalError
+            };
+            this.WALL(errorInfo);
             // return true; 当返回true 异常才不会向上抛出
             originHandleError && originHandleError.apply(window, arg);
         };
@@ -111,26 +117,23 @@ class TryCatch implements EngineInterface {
             return {
                 ...errorInfo,
                 ...{
-                    info: {
-                        row: Number(row || stackRow),
-                        col: Number(col || stackCol),
-                        name,
-                        message,
-                        content,
-                        resourceUrl
-                    }
+                    errorMessage: message,
+                    scriptURI: resourceUrl,
+                    lineNumber: Number(row || stackRow),
+                    columnNumber: Number(col || stackCol),
+                    name,
+                    content
                 }
             };
         }
+
         return {
             ...errorInfo,
             ...{
-                info: {
-                    row,
-                    col,
-                    name,
-                    message
-                }
+                errorMessage: message,
+                lineNumber: row,
+                columnNumber: col,
+                name
             }
         };
     };
@@ -165,7 +168,7 @@ class TryCatch implements EngineInterface {
                 content: e.reason
             };
             let errorInfo: EventInterface = {
-                type: 'PROMISEERROR',
+                type: 'ERROR_PROMISE',
                 info: promiseError
             };
             this.WALL(errorInfo);
@@ -180,23 +183,27 @@ class TryCatch implements EngineInterface {
             function(e) {
                 let typeName: string = (e.target as any).localName;
                 let sourceUrl: string = '';
+                let type: keyof EventType;
                 if (typeName === 'link') {
                     sourceUrl = (e.target as any).href;
+                    type = 'ERROR_LINK';
                 } else if (typeName === 'script') {
                     sourceUrl = (e.target as any).src;
+                    type = 'ERROR_SCRIPT';
                 } else if (typeName === 'img') {
                     sourceUrl = (e.target as any).src;
-                    let sourceError: SourceErrorInterface = {
-                        message: '静态资源加载错误',
-                        typeName,
-                        sourceUrl
-                    };
-                    let errorInfo: EventInterface = {
-                        type: 'SOURCEERROR',
-                        info: sourceError
-                    };
-                    this.WALL(errorInfo);
+                    type = 'ERROR_IMAGE';
                 }
+                let sourceError: SourceErrorInterface = {
+                    message: '静态资源加载错误',
+                    typeName,
+                    sourceUrl
+                };
+                let errorInfo: EventInterface = {
+                    type,
+                    info: sourceError
+                };
+                this.WALL(errorInfo);
             },
             true
         );
@@ -207,7 +214,7 @@ class TryCatch implements EngineInterface {
         let self = this;
         window.console.error = function(...arg) {
             let errorInfo: EventInterface = {
-                type: 'CONSOLEERRR',
+                type: 'ERROR_CONSOLE',
                 info: {
                     message: JSON.stringify(arg)
                 }

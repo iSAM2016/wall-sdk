@@ -4,14 +4,13 @@
  * @Date: 2019-12-19 14:48:02
  * @Last Modified by: isam2016
  * @Last Modified time: 2019-12-20 17:15:45
- * TODO: fetch
  */
 import {
     XhrInterface,
     XhrInfoInterface,
-    EventInterface,
     AppInterface,
-    EngineInterface
+    EngineInterface,
+    FetchInterface
 } from '@app/types';
 
 class Xhr implements EngineInterface {
@@ -35,6 +34,7 @@ class Xhr implements EngineInterface {
         this.WALL = wall;
         this.xhropen();
         this.xhrsend();
+        this.fetch();
     }
     /**
      * 打开
@@ -112,16 +112,15 @@ class Xhr implements EngineInterface {
             this.xhrInfo.statusText = currentTarget.statusText;
             this.xhrInfo.success = this.isXhrSuccess(currentTarget);
             this.xhrInfo.duration = Date.now() - this._eagle_start_time;
-            this.xhrInfo.requestDate = this.WALL.options.paramEncryption(
-                this.param
-            );
+            this.xhrInfo.requestDate = this.param;
+
             let xhrAllInfo: XhrInterface = {
-                type: 'BEHAVIORXHR',
+                type: 'BEHAVIOR_XHR',
                 info: this.xhrInfo
             };
 
             if (!this.xhrInfo.success) {
-                xhrAllInfo.type = 'XHRERROR';
+                xhrAllInfo.type = 'ERROR_XHR';
             }
             this.WALL(xhrAllInfo);
         }
@@ -139,8 +138,51 @@ class Xhr implements EngineInterface {
             currentTarget.status === 304
         );
     }
+    // 重写fetch;
+    private fetch() {
+        let self = this;
+        if (!window.fetch) return;
+        let _origin_fetch = window.fetch;
+        window.fetch = function() {
+            let startTime = Date.now();
+            let args = [].slice.call(arguments);
+            let fetchInput = args[0];
+            let method = 'GET';
+            let url;
 
-    public request() {}
+            if (typeof fetchInput === 'string') {
+                url = fetchInput;
+            } else if (
+                'Request' in window &&
+                fetchInput instanceof window.Request
+            ) {
+                url = fetchInput.url;
+                if (fetchInput.method) {
+                    method = fetchInput.method;
+                }
+            } else {
+                url = '' + fetchInput;
+            }
+
+            if (args[1] && args[1].method) {
+                method = args[1].method;
+            }
+
+            return _origin_fetch.apply(this, args).then(function(response) {
+                let fetchAllInfo: FetchInterface = {
+                    type: 'BEHAVIOR_FETCH',
+                    info: {
+                        message: 'fetch 请求',
+                        status: response.status,
+                        duration: Date.now() - startTime,
+                        url,
+                        method
+                    }
+                };
+                self.WALL(fetchAllInfo);
+            });
+        };
+    }
 }
 
 export default Xhr;
