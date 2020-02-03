@@ -81,3 +81,7 @@ TODO:
 10. 测试
 11. 用户访问应用次数记录统计(记录第一次加载， 记录刷新) session
 12. 每个页面首次加载时间统计(记录第一次加载)
+
+## 参考文献
+
+[前端工程实践之数据埋点分析系统](https://mp.weixin.qq.com/s/SnAVuXis1fOtc7VFBN4ckQ)

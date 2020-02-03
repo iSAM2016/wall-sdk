@@ -19,6 +19,7 @@ export interface EventInterface {
     type: keyof EventType;
     info: InfoInterface; // 业务信息 error 信息 行为信息
     key?: string; // 每个event 都有自己的 唯一key
+    version?: number; // sdk 版本
     isUpload?: boolean; // 是否立即上报
     currentUrl?: string; // 页面url // TODO: 获取页面唯一标识
     createTime?: number; // event创建时间

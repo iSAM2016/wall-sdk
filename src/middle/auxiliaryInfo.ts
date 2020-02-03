@@ -1,5 +1,6 @@
-import { EventInterface, NextInterface, DeviceInterface } from '@app/types';
+const PACKAGE = require('../../package.json');
 import { randomKey, getDevice } from '@app/util';
+import { EventInterface, NextInterface, DeviceInterface } from '@app/types';
 export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
     console.log(event);
     let {
@@ -20,6 +21,7 @@ export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
     event.createTime = +new Date();
     event.deviceInfo = deviceInfo;
     event.currentUrl = encodeURIComponent(window.location.href); // 页面url
+    event.version = PACKAGE.version;
 
     // TODO 位置信息, 待处理
     // this.monitorIp = ''; // 用户的IP地址
