@@ -10,8 +10,8 @@ import {
     EventInterface,
     loadPageInterface,
     URLInfoInterface
-} from '@app/types';
-import { debugLogger } from '@app/util';
+} from '../types';
+import { debugLogger } from '../util';
 
 class Resources {
     WALL: AppInterface;

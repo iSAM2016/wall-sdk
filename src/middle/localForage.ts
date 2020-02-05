@@ -1,5 +1,5 @@
 import * as localForage from 'localforage';
-import { NodeInterface, EventInterface } from '@app/types';
+import { NodeInterface, EventInterface } from '../types';
 
 //防止用户清空indexdb 每次都从新读取 LINLNODEIDS
 export const createHead = listnode => {

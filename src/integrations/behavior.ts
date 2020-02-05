@@ -11,7 +11,7 @@ import {
     AppInterface,
     XpathInterface,
     CustomBehavior
-} from '@app/types';
+} from '../types';
 
 // 用户在线时长统计
 const OFFLINE_MILL = 15 * 60 * 1000; // 15分钟不操作认为不在线

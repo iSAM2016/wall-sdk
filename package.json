@@ -1,14 +1,13 @@
 {
     "name": "wall_sdk",
-    "version": "0.1.2",
-    "main": "./dist/app.js",
+    "version": "0.2.2",
+    "main": "dist/index.js",
     "dependencies": {
         "localforage": "^1.7.3"
     },
     "scripts": {
         "start": "export  NODE_ENV=dev && webpack-dev-server  --config build/webpack.dev.js",
-        "watch": "webpack --watch",
-        "build": "export NODE_ENV=prod && webpack --config build/webpack.prod.js"
+        "build": "tsc"
     },
     "devDependencies": {
         "babel-polyfill": "^6.26.0",

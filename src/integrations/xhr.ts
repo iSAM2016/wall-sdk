@@ -11,7 +11,7 @@ import {
     AppInterface,
     EngineInterface,
     FetchInterface
-} from '@app/types';
+} from '../types';
 
 class Xhr implements EngineInterface {
     private readonly xhr = window.XMLHttpRequest;

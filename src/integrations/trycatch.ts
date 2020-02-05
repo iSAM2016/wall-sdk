@@ -14,7 +14,7 @@ import {
     SourceErrorInterface,
     CustomErrorInterface,
     PromiseErrorInterface
-} from '@app/types';
+} from '../types';
 
 class TryCatch implements EngineInterface {
     WALL: AppInterface;

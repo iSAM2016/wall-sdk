@@ -1,4 +1,4 @@
-import { EventInterface, OptionsInterface, EngineInterface } from '@app/types';
+import { EventInterface, OptionsInterface, EngineInterface } from '../types';
 
 export interface ApplicationInterface {
     (): AppInterface;

@@ -7,8 +7,8 @@ import {
     MiddleHandlerInterface,
     MiddleOptionsInterface,
     ApplicationInterface
-} from '@app/types';
-import { randomKey, getDevice } from '@app/util';
+} from '../types';
+import { randomKey, getDevice } from '../util';
 
 let Application = <ApplicationInterface>function() {
     //   最常用的是向 event 添加东西

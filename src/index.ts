@@ -1,14 +1,14 @@
-import Application from '@app/core/wall';
-import { AppInterface, NodeInterface } from '@app/types';
-import TryCatch from '@app/integrations/trycatch';
-import Behavior from '@app/integrations/behavior';
-import Resources from '@app/integrations/resources';
+import Application from './core/wall';
+import { AppInterface, NodeInterface } from './types';
+import TryCatch from './integrations/trycatch';
+import Behavior from './integrations/behavior';
+import Resources from './integrations/resources';
 import ListNode from './util/linknode';
-import Xhr from '@app/integrations/xhr';
-import { auxiliaryInfo, frequency } from '@app/middle';
-import { createHead, setLocalEvent, updateEventIds } from '@app/middle';
+import Xhr from './integrations/xhr';
+import { auxiliaryInfo, frequency } from './middle';
+import { createHead, setLocalEvent, updateEventIds } from './middle';
 import * as localForage from 'localforage';
-import { debugLogger } from '@app/util';
+import { debugLogger } from './util';
 let wall: AppInterface = Application();
 let listnode: ListNode = new ListNode();
 
@@ -25,19 +25,19 @@ wall.use((event, next) => {
 });
 
 //对所有ERROR BEHAVIORC 数据记录
-wall.use(async (event, next) => {
-    if (event.type.includes('BEHAVIOR') || event.type.includes('ERROR')) {
-        await createHead(listnode);
-        let head = await setLocalEvent(event, listnode);
-        await updateEventIds(head as NodeInterface);
-        next();
-    }
-    next();
-});
+// wall.use(async (event, next) => {
+//     if (event.type.includes('BEHAVIOR') || event.type.includes('ERROR')) {
+//         await createHead(listnode);
+//         let head = await setLocalEvent(event, listnode);
+//         await updateEventIds(head as NodeInterface);
+//         next();
+//     }
+//     next();
+// });
 
 // 对当前event有upload属性并且为true的 取出历史前四条立即上报
 wall.use(async (event, next) => {
-    if (!event.options.isTest && event.isUpload) {
+    if (!event.options.isTest) {
         let ids: Array<string> = listnode.getFiveNodeKeys();
         let resultEvent = ids.reduce((mome: any, id) => {
             mome.push(localForage.getItem(id));

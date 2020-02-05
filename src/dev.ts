@@ -3,6 +3,6 @@ import Wall from './index';
 Wall.init({
     origin: 'http://localhost:9090',
     token: String(9999),
-    isTest: false,
+    isTest: true,
     frequency: 1
 });

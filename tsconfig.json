@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "esnext", // 使用 ES2015 模块
-    "target": "es6", // 编译成 ES2015 (Babel 将做剩下的事情)
+    "target": "es5", // 编译成 ES2015 (Babel 将做剩下的事情)
     "baseUrl": ".", // 可以相对这个目录 import 文件
     "sourceMap": true, // 使 TypeScript 生成 sourcemaps
     "outDir": "./dist", // 构建输出目录 (因为我们大部分时间都在使用 Webpack，所以不太相关)
@@ -9,12 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "paths": {
-      "@app/*": [
-        "src/*"
-      ],
-      "@types/*": [
-        "src/types/"
-      ]
+
     }
   },
   "exclude": [

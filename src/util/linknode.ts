@@ -5,7 +5,7 @@
  * @Last Modified time: 2019-12-23 17:29:06
  */
 
-import { NodeInterface } from '@app/types';
+import { NodeInterface } from '../types';
 /**
  * 链表
  */

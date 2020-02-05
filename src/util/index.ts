@@ -1,4 +1,4 @@
-import { DeviceInterface } from '@app/types';
+import { DeviceInterface } from '../types';
 export const addEventListener = (name: string, callback, useCapture) => {
     if (window.addEventListener) {
         return window.addEventListener(name, callback, useCapture);

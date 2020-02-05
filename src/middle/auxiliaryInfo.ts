@@ -1,5 +1,5 @@
-import { EventInterface, NextInterface, DeviceInterface } from '@app/types';
-import { randomKey, getDevice } from '@app/util';
+import { EventInterface, NextInterface, DeviceInterface } from '../types';
+import { randomKey, getDevice } from '../util';
 const Resource = require('../../package.json');
 
 export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
