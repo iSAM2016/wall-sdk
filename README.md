@@ -65,7 +65,7 @@ npm run build:deploy
 
 ### <a id="event">event</a>
 
-## //TODO:
+## TODO:
 
 1. 崩溃和卡顿
 2. sourceMap

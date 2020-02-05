@@ -1,8 +1,8 @@
 import Wall from './index';
 // h5  版本
 Wall.init({
-    origin: 'http://baidu.com',
+    origin: 'http://localhost:9090',
     token: String(9999),
-    isTest: true,
+    isTest: false,
     frequency: 1
 });

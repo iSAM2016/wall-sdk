@@ -37,11 +37,7 @@ wall.use(async (event, next) => {
 
 // 对当前event有upload属性并且为true的 取出历史前四条立即上报
 wall.use(async (event, next) => {
-    if (event.options.isTest) {
-        // 测试环境不上传
-        next();
-    }
-    if (event.isUpload) {
+    if (!event.options.isTest && event.isUpload) {
         let ids: Array<string> = listnode.getFiveNodeKeys();
         let resultEvent = ids.reduce((mome: any, id) => {
             mome.push(localForage.getItem(id));
@@ -56,19 +52,20 @@ wall.use(async (event, next) => {
                     img.onload = function() {
                         resolve(result);
                     };
-                    img.onerror = function() {
-                        reject('error!');
+                    img.onerror = function(e) {
+                        reject(e);
                     };
                     img.src = `${event.options.origin}?d=${encodeURIComponent(
                         JSON.stringify(event)
-                    )}`;
+                    )}.gif`;
                 });
             })
             .then(result => {
                 next(); //TODO: 根据业务划分 是否TODO
             })
             .catch(err => {
-                console.log(err);
+                // 图片加载错误
+                // console.log(err);
             });
     } else {
         next();

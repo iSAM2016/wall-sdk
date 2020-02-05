@@ -1,10 +1,8 @@
 {
-    "name": "wall",
-    "version": "0.1.0",
-    "private": true,
+    "name": "wall_sdk",
+    "version": "0.1.2",
+    "main": "./dist/app.js",
     "dependencies": {
-        "@babel/plugin-transform-runtime": "^7.3.4",
-        "babel-polyfill": "^6.26.0",
         "localforage": "^1.7.3"
     },
     "scripts": {
@@ -13,8 +11,10 @@
         "build": "export NODE_ENV=prod && webpack --config build/webpack.prod.js"
     },
     "devDependencies": {
+        "babel-polyfill": "^6.26.0",
         "@babel/core": "^7.7.5",
         "@babel/plugin-proposal-class-properties": "^7.7.4",
+        "@babel/plugin-transform-runtime": "^7.3.4",
         "@babel/plugin-syntax-dynamic-import": "^7.7.4",
         "@babel/plugin-transform-flow-strip-types": "^7.7.4",
         "@babel/preset-env": "^7.7.6",
