@@ -55,9 +55,9 @@ wall.use(async (event, next) => {
                     img.onerror = function(e) {
                         reject(e);
                     };
-                    img.src = `${event.options.origin}?d=${encodeURIComponent(
-                        JSON.stringify(event)
-                    )}.gif`;
+                    img.src = `${
+                        event.options.origin
+                    }/data.gif?d=${encodeURIComponent(JSON.stringify(event))}`;
                 });
             })
             .then(result => {

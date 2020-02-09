@@ -10,7 +10,8 @@ import {
     XhrInfoInterface,
     AppInterface,
     EngineInterface,
-    FetchInterface
+    FetchInterface,
+    BehaviorCode
 } from '../types';
 
 class Xhr implements EngineInterface {
@@ -26,7 +27,8 @@ class Xhr implements EngineInterface {
     private _eagle_start_time: number;
     private param: object;
     private xhrInfo: XhrInfoInterface = {
-        message: ''
+        message: '',
+        code: BehaviorCode['BEHAVIOR_XHR']
     };
     WALL: AppInterface;
 
@@ -46,7 +48,8 @@ class Xhr implements EngineInterface {
                 message: '异步请求',
                 url,
                 method,
-                status: null
+                status: null,
+                code: BehaviorCode['BEHAVIOR_XHR']
             };
             return _self.originOpen.apply(this, arguments);
         };
@@ -176,7 +179,8 @@ class Xhr implements EngineInterface {
                         status: response.status,
                         duration: Date.now() - startTime,
                         url,
-                        method
+                        method,
+                        code: BehaviorCode['BEHAVIOR_FETCH']
                     }
                 };
                 self.WALL(fetchAllInfo);

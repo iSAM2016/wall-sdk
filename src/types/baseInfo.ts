@@ -11,15 +11,23 @@ export type EventType = {
     ERROR_CONSOLE: 'ERROR_CONSOLE'; // console.error
 
     BEHAVIOR_XHR: 'BEHAVIOR_XHR'; // 用户请求
-    BEHAVIOR_CLICK: 'BEHAVIOR_CLICK'; // 用户点击
-    BEHAVIOR_XPATH: 'BEHAVIOR_XPATH'; // 用户点击
+    BEHAVIOR_XPATH: 'BEHAVIOR_XPATH'; // 用户点击路径
     BEHAVIOR_FETCH: 'BEHAVIOR_FETCH'; // 用户请求
     BEHAVIOR_CUSTOM: 'BEHAVIOR_CUSTOM'; // 用户自定行为
-    BEHAVIOR_DURATION: 'BEHAVIOR_DURATION'; // 用户停留时间
     BEHAVIOR_URLCHANGE: 'BEHAVIOR_URLCHANGE'; // 路由改变
 
-    RESCOURCES: 'RESCOURCES'; // 资源
+    DURATION: 'DURATION'; // 用户停留时间
+    RESCOURCES: 'RESCOURCES';
 };
+// 用户行为标识
+export enum BehaviorCode {
+    BEHAVIOR_XHR, // 用户请求
+    BEHAVIOR_XPATH, // 用户点击路径
+    BEHAVIOR_FETCH, // 用户请求
+    BEHAVIOR_CUSTOM, // 用户自定行为
+    BEHAVIOR_DURATION, // 用户停留时间
+    BEHAVIOR_URLCHANGE // 路由改变
+}
 
 export interface EventInterface {
     type: keyof EventType;
@@ -31,6 +39,8 @@ export interface EventInterface {
     createTime?: number; // event创建时间
     options?: OptionsInterface; // wall 初始化信息
     deviceInfo?: DeviceInterface;
+    userId?: string; // 用户id
+    uuid?: string; // 设备id
 }
 
 export interface InfoInterface {

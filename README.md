@@ -19,11 +19,11 @@ wall-sdk 是 wall 监听系统的前端 SDK，负责收集前端信息
 ## npm 引用
 
 ```
-npm install wall-sdk --save
+npm install wall_sdk --save
 ```
 
 ```
-import  Wall from 'wall-sdk'
+import  Wall from 'wall_sdk'
 
 Wall.init({
   token: xxxxxxxxxx, // 项目标识

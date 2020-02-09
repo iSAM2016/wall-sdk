@@ -9,7 +9,8 @@ import {
     AppInterface,
     EventInterface,
     loadPageInterface,
-    URLInfoInterface
+    URLInfoInterface,
+    BehaviorCode
 } from '../types';
 import { debugLogger } from '../util';
 
@@ -132,7 +133,7 @@ class Resources {
     // 监听url 变化
     public listenerUrl() {
         let self = this;
-
+        console.log(999);
         setInterval(function() {
             // 如果是单页应用， 只更改url
             let webLocation = window.location.href
@@ -145,7 +146,8 @@ class Resources {
                 let URLInfo: URLInfoInterface = {
                     message: '用户页面跳转',
                     oldURL: defaultLocation,
-                    newURL: webLocation
+                    newURL: webLocation,
+                    code: BehaviorCode['BEHAVIOR_URLCHANGE']
                 };
                 let behaviorInfo: EventInterface = {
                     type: 'BEHAVIOR_URLCHANGE',
@@ -157,7 +159,7 @@ class Resources {
             }
         }, 200);
     }
-    //   function markUv() {
+    //   function markUv() {TODO://
     //     const date = new Date();
     //     let markUv = localStorage.getItem('ps_markUv') || '';
     //     const datatime = localStorage.getItem('ps_markUvTime') || '';

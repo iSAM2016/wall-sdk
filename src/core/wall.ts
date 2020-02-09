@@ -76,13 +76,20 @@ let Application = <ApplicationInterface>function() {
         if (!options.userId) {
             let randomUserID: string;
             let localWallUserID: string = localStorage.getItem('WALLUSERID');
+            let randomUuid: string = localStorage.getItem('WALLUUID'); // 设备id
             if (!localWallUserID) {
                 randomUserID = 'wall_' + randomKey(32);
                 localStorage.setItem('WALLUSERID', randomUserID);
             } else {
                 randomUserID = localWallUserID;
             }
+
+            if (!randomUuid) {
+                randomUuid = 'wall_uuid' + randomKey(32);
+                localStorage.setItem('WALLUUID', randomUuid);
+            }
             options.userId = randomUserID;
+            options.uuid = randomUuid;
         }
         let myOptions = { ...app.options, ...options };
         window.WALL_OPTIONS = myOptions;

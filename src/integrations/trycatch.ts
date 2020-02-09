@@ -60,7 +60,7 @@ class TryCatch implements EngineInterface {
                     return (listener as any).apply(this, args);
                 } catch (err) {
                     err.stack += '\n' + addStack;
-                    throw err;
+                    // throw err;TODO:??
                 }
             };
             return originAddEventListener.call(

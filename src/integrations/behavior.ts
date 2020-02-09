@@ -10,7 +10,8 @@ import {
     EngineInterface,
     AppInterface,
     XpathInterface,
-    CustomBehavior
+    CustomBehavior,
+    BehaviorCode
 } from '../types';
 
 // 用户在线时长统计
@@ -47,7 +48,8 @@ class Behavior implements EngineInterface {
                         xpath,
                         inputValue,
                         placeholder,
-                        className
+                        className,
+                        code: BehaviorCode['BEHAVIOR_XPATH']
                     };
                     let behaviorInfo: EventInterface = {
                         type: 'BEHAVIOR_XPATH',
@@ -65,7 +67,7 @@ class Behavior implements EngineInterface {
                             duration_ms: duration
                         };
                         let durationEvent: EventInterface = {
-                            type: 'BEHAVIOR_DURATION',
+                            type: 'DURATION',
                             info: durationInfo
                         };
                         lastTime = Date.now();
@@ -116,7 +118,8 @@ class Behavior implements EngineInterface {
             let customBehavior: CustomBehavior = {
                 message,
                 behaviorType,
-                behaviorResult
+                behaviorResult,
+                code: BehaviorCode['BEHAVIOR_CUSTOM']
             };
             let behaviorInfo: EventInterface = {
                 type: 'BEHAVIOR_CUSTOM',

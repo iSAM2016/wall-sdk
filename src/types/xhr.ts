@@ -15,6 +15,7 @@ export interface XhrInfoInterface extends InfoInterface {
     statusText?: string;
     responseSize?: string;
     requestDate?: object;
+    code: number; // 行为编号
 }
 
 export interface FetchInterface extends EventInterface {
@@ -25,5 +26,6 @@ export interface FetchInterface extends EventInterface {
         duration: number;
         url: string;
         method: string;
+        code: number; // 行为编号
     };
 }
