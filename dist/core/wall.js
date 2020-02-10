@@ -1,38 +1,40 @@
-import {
-    AppInterface,
-    NextInterface,
-    EngineInterface,
-    OptionsInterface,
-    EventInterface,
-    MiddleHandlerInterface,
-    MiddleOptionsInterface,
-    ApplicationInterface
-} from '../types';
-import { randomKey, getDevice } from '../util';
-
-let Application = <ApplicationInterface>function() {
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+import { randomKey } from '../util';
+var Application = function () {
+    var _this = this;
     //   最常用的是向 event 添加东西
-    let app = <AppInterface>function(event: EventInterface) {
+    var app = function (event) {
         event.options = app.options;
-        let index: number = 0;
-        let next: NextInterface = (error?: string) => {
-            let layer: MiddleOptionsInterface = app.routes[index++];
+        var index = 0;
+        var next = function (error) {
+            var layer = app.routes[index++];
             if (layer) {
                 if (error) {
                     //  如果有错误，需要走错误接口
-                    if (
-                        layer.method === 'middle' &&
-                        layer.handler.length === 3
-                    ) {
+                    if (layer.method === 'middle' &&
+                        layer.handler.length === 3) {
                         return layer.handler(event, next, error);
-                    } else {
+                    }
+                    else {
                         next(error);
                     }
-                } else {
+                }
+                else {
                     if (layer.method === 'middle') {
                         if (layer.pathname === '/') {
                             return layer.handler(event, next);
-                        } else {
+                        }
+                        else {
                             next();
                         }
                     }
@@ -50,18 +52,17 @@ let Application = <ApplicationInterface>function() {
     };
     app.routes = [];
     // 中间件
-    app.use = (handler: MiddleHandlerInterface) => {
+    app.use = function (handler) {
         app.routes.push({
             method: 'middle',
             pathname: '/',
-            handler
-        } as MiddleOptionsInterface);
-        return this;
+            handler: handler
+        });
+        return _this;
     };
-    app.listen = function(instance: Array<EngineInterface>) {};
-
+    app.listen = function (instance) { };
     // 初始化参数
-    app.init = (options: OptionsInterface) => {
+    app.init = function (options) {
         // 检测options
         if (!options.project_id) {
             throw new Error('缺少项目project_id');
@@ -74,16 +75,16 @@ let Application = <ApplicationInterface>function() {
         }
         //设置userid
         if (!options.userId) {
-            let randomUserID: string;
-            let localWallUserID: string = localStorage.getItem('WALLUSERID');
-            let randomUuid: string = localStorage.getItem('WALLUUID'); // 设备id
+            var randomUserID = void 0;
+            var localWallUserID = localStorage.getItem('WALLUSERID');
+            var randomUuid = localStorage.getItem('WALLUUID'); // 设备id
             if (!localWallUserID) {
                 randomUserID = 'wall_' + randomKey(32);
                 localStorage.setItem('WALLUSERID', randomUserID);
-            } else {
+            }
+            else {
                 randomUserID = localWallUserID;
             }
-
             if (!randomUuid) {
                 randomUuid = 'wall_uuid' + randomKey(32);
                 localStorage.setItem('WALLUUID', randomUuid);
@@ -91,11 +92,11 @@ let Application = <ApplicationInterface>function() {
             options.userId = randomUserID;
             options.uuid = randomUuid;
         }
-        let myOptions = { ...app.options, ...options };
+        var myOptions = __assign(__assign({}, app.options), options);
         window.WALL_OPTIONS = myOptions;
         app.options = myOptions;
     };
     return app;
 };
-
 export default Application;
+//# sourceMappingURL=wall.js.map

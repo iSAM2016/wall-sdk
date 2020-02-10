@@ -1,23 +1,14 @@
-import { EventInterface, NextInterface, DeviceInterface } from '../types';
 import { randomKey, getDevice } from '../util';
-const Resource = require('../../package.json');
-
-export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
-    let {
-        deviceName,
-        os,
-        osVersion,
-        browserName,
-        browserVersion
-    }: DeviceInterface = getDevice();
+var Resource = require('../../package.json');
+export var auxiliaryInfo = function (event, next) {
+    var _a = getDevice(), deviceName = _a.deviceName, os = _a.os, osVersion = _a.osVersion, browserName = _a.browserName, browserVersion = _a.browserVersion;
     // 后台自动获取
-    let deviceInfo: DeviceInterface = {
-        deviceName,
-        browserName,
-        browserVersion,
+    var deviceInfo = {
+        deviceName: deviceName,
+        browserName: browserName,
+        browserVersion: browserVersion,
         os: os + (osVersion ? String(osVersion) : '')
     };
-
     event.userId = event.options.userId;
     event.uuid = event.options.uuid; // 设备id
     event.key = randomKey(32);
@@ -25,6 +16,6 @@ export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
     event.version = Resource.version;
     event.createTime = +new Date();
     event.currentUrl = encodeURIComponent(window.location.href); // 页面url
-
     next();
 };
+//# sourceMappingURL=auxiliaryInfo.js.map

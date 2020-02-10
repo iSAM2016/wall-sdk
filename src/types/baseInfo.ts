@@ -35,12 +35,13 @@ export interface EventInterface {
     key?: string; // 每个event 都有自己的 唯一key
     version?: number; // sdk 版本
     isUpload?: boolean; // 是否立即上报
-    currentUrl?: string; // 页面url // TODO: 获取页面唯一标识
+    currentUrl?: string; // 页面urrl // TODO: 获取页面唯一标识
     createTime?: number; // event创建时间
     options?: OptionsInterface; // wall 初始化信息
     deviceInfo?: DeviceInterface;
     userId?: string; // 用户id
     uuid?: string; // 设备id
+    project_id?: string;
 }
 
 export interface InfoInterface {
