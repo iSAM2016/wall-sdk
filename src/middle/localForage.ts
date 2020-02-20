@@ -9,12 +9,12 @@ export const createHead = listnode => {
 };
 
 // 设置value
-export const setLocalEvent = (event: EventInterface, listnode) => {
+export const setLocalEvent = (wallEvent: EventInterface, listnode) => {
     return localForage
-        .setItem(event.key, JSON.stringify(event))
+        .setItem(wallEvent.key, JSON.stringify(wallEvent))
         .then(value => {
             //更新ids
-            return listnode.insert(event.key);
+            return listnode.insert(wallEvent.key);
         })
         .catch(err => {
             console.log(err);

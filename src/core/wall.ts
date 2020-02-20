@@ -11,9 +11,9 @@ import {
 import { randomKey, getDevice } from '../util';
 
 let Application = <ApplicationInterface>function() {
-    //   最常用的是向 event 添加东西
-    let app = <AppInterface>function(event: EventInterface) {
-        event.options = app.options;
+    //   最常用的是向 wallEvent 添加东西
+    let app = <AppInterface>function(wallEvent: EventInterface) {
+        wallEvent.options = app.options;
         let index: number = 0;
         let next: NextInterface = (error?: string) => {
             let layer: MiddleOptionsInterface = app.routes[index++];
@@ -24,14 +24,14 @@ let Application = <ApplicationInterface>function() {
                         layer.method === 'middle' &&
                         layer.handler.length === 3
                     ) {
-                        return layer.handler(event, next, error);
+                        return layer.handler(wallEvent, next, error);
                     } else {
                         next(error);
                     }
                 } else {
                     if (layer.method === 'middle') {
                         if (layer.pathname === '/') {
-                            return layer.handler(event, next);
+                            return layer.handler(wallEvent, next);
                         } else {
                             next();
                         }
@@ -43,7 +43,7 @@ let Application = <ApplicationInterface>function() {
         next();
     };
     app.options = {
-        project_id: '',
+        project_id: 0,
         origin: '',
         isTest: false,
         frequency: 1

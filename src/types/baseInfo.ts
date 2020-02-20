@@ -41,7 +41,7 @@ export interface EventInterface {
     deviceInfo?: DeviceInterface;
     userId?: string; // 用户id
     uuid?: string; // 设备id
-    project_id?: string;
+    project_id?: number;
 }
 
 export interface InfoInterface {

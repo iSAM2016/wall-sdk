@@ -8,7 +8,7 @@ wall_sdk 是一款前端监听系统(SDK)，负责收集前端信息，包括 aj
 
 ## 主要性能
 
-1.  采用 express 中间件， 可以快速处理 [event](#event)
+1.  采用 express 中间件， 可以快速处理 [wallEvent](#wallEvent)
 2.  监听用户行为：用户点击，路由改变，用户请求， 资源加载，具体类型为[eventType](#type)
 3.  监控: onerror 全局监听, addEventListener 全局监听,try...catch 主动捕获,重写 XMLHttpRequest 对象方法 普通错误，primose 异常， console.error, 图片加载错误， xhr 错误，fetch 错误
 4.  适用 `vue` `react`
@@ -125,15 +125,15 @@ index.html 中包含各种类型错误，可以调试
 npm run build
 ```
 
-## <a id="event">event</a>
+## <a id="wallEvent">wallEvent</a>
 
-event 含义： 错误的发生，用户的行为， 资源的加载，统称为 `事件`，即为 event，event 中包含事件的详细信息。
+wallEvent 含义： 错误的发生，用户的行为， 资源的加载，统称为 `事件`，即为 event，event 中包含事件的详细信息。
 
-可以参考 [event-demo](#eventdomo)
+可以参考 [wallEvent-demo](#eventdomo)
 
 ```js
 interface EventInterface {
-    type: keyof EventType   // event.type
+    type: keyof EventType   // wallEvent.type
     info: InfoInterface;    // 上报的具体信息内容
     key?: string;           // 每个event 都有自己的 唯一key
     version?: number;       // sdk 版本
@@ -144,9 +144,9 @@ interface EventInterface {
 }
 ```
 
-## <a id="type">event.type</a>
+## <a id="type">wallEvent.type</a>
 
-event 的类型-type 如下, 每个类型都会触发信息上报
+wallEvent 的类型-type 如下, 每个类型都会触发信息上报
 
 ```js
 type EventType = {

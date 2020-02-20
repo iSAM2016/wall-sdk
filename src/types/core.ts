@@ -5,7 +5,7 @@ export interface ApplicationInterface {
 }
 
 export interface AppInterface {
-    (event: EventInterface): void;
+    (wallEvent: EventInterface): void;
     options: OptionsInterface;
     routes: Array<MiddleOptionsInterface>;
     init(options: OptionsInterface): void;
@@ -25,7 +25,7 @@ export interface MiddleOptionsInterface {
 }
 
 export interface MiddleHandlerInterface {
-    (event: EventInterface, next: NextInterface, error?: string): void;
+    (wallEvent: EventInterface, next: NextInterface, error?: string): void;
 }
 export interface NextInterface {
     (error?: string): void;

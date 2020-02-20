@@ -18,17 +18,17 @@ wall.use(auxiliaryInfo);
 // 对所有的ERROR设置上报频率
 wall.use(frequency);
 
-//debugLogger->event
-wall.use((event, next) => {
-    debugLogger(event);
+//debugLogger->wallEvent
+wall.use((wallEvent, next) => {
+    debugLogger(wallEvent);
     next();
 });
 
 //对所有ERROR BEHAVIORC 数据记录
-// wall.use(async (event, next) => {
-//     if (event.type.includes('BEHAVIOR') || event.type.includes('ERROR')) {
+// wall.use(async (wallEvent, next) => {
+//     if (wallEvent.type.includes('BEHAVIOR') || wallEvent.type.includes('ERROR')) {
 //         await createHead(listnode);
-//         let head = await setLocalEvent(event, listnode);
+//         let head = await setLocalEvent(wallEvent, listnode);
 //         await updateEventIds(head as NodeInterface);
 //         next();
 //     }
@@ -36,8 +36,8 @@ wall.use((event, next) => {
 // });
 
 // 对当前event有upload属性并且为true的 取出历史前四条立即上报
-wall.use(async (event, next) => {
-    if (!event.options.isTest) {
+wall.use(async (wallEvent, next) => {
+    if (!wallEvent.options.isTest) {
         let ids: Array<string> = listnode.getFiveNodeKeys();
         let resultEvent = ids.reduce((mome: any, id) => {
             mome.push(localForage.getItem(id));
@@ -56,8 +56,10 @@ wall.use(async (event, next) => {
                         reject(e);
                     };
                     img.src = `${
-                        event.options.origin
-                    }/data.gif?d=${encodeURIComponent(JSON.stringify(event))}`;
+                        wallEvent.options.origin
+                    }/data.gif?d=${encodeURIComponent(
+                        JSON.stringify(wallEvent)
+                    )}`;
                 });
             })
             .then(result => {

@@ -2,7 +2,10 @@ import { EventInterface, NextInterface, DeviceInterface } from '../types';
 import { randomKey, getDevice } from '../util';
 const Resource = require('../../package.json');
 
-export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
+export const auxiliaryInfo = (
+    wallEvent: EventInterface,
+    next: NextInterface
+) => {
     let {
         deviceName,
         os,
@@ -18,13 +21,13 @@ export const auxiliaryInfo = (event: EventInterface, next: NextInterface) => {
         os: os + (osVersion ? String(osVersion) : '')
     };
 
-    event.userId = event.options.userId;
-    event.uuid = event.options.uuid; // 设备id
-    event.key = randomKey(32);
-    event.project_id = event.options.project_id;
-    event.version = Resource.version;
-    event.createTime = +new Date();
-    event.currentUrl = encodeURIComponent(window.location.href); // 页面url
+    wallEvent.userId = wallEvent.options.userId;
+    wallEvent.uuid = wallEvent.options.uuid; // 设备id
+    wallEvent.key = randomKey(32);
+    wallEvent.project_id = wallEvent.options.project_id;
+    wallEvent.version = Resource.version;
+    wallEvent.createTime = +new Date();
+    wallEvent.currentUrl = encodeURIComponent(window.location.href); // 页面url
 
     next();
 };

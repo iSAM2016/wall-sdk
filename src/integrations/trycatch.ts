@@ -21,7 +21,7 @@ class TryCatch implements EngineInterface {
     constructor(wall: AppInterface) {
         this.WALL = wall;
         this.createCustomEvent();
-        this.changeRriginAddEventListener();
+        // this.changeRriginAddEventListener();TODO: 取消跨站
         this.onError();
         this.originOnunhandledrejection();
         this.startAddentListener();

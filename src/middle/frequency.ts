@@ -1,11 +1,11 @@
-import { EventInterface, NextInterface } from "../types";
+import { EventInterface, NextInterface } from '../types';
 
-export const frequency = (event: EventInterface, next: NextInterface) => {
-  if (event.type.includes("ERROR")) {
-    event.isUpload = false;
-    if (Math.random() < event.options.frequency) {
-      event.isUpload = true;
+export const frequency = (wallEvent: EventInterface, next: NextInterface) => {
+    if (wallEvent.type.includes('ERROR')) {
+        wallEvent.isUpload = false;
+        if (Math.random() < wallEvent.options.frequency) {
+            wallEvent.isUpload = true;
+        }
     }
-  }
-  next();
+    next();
 };

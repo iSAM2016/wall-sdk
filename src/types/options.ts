@@ -1,5 +1,5 @@
 export interface OptionsInterface {
-    project_id: string; // 项目id
+    project_id: number; // 项目id
     origin: string; // server 地址
     frequency: number;
     isTest?: boolean;
