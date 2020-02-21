@@ -184,6 +184,9 @@ var TryCatch = /** @class */ (function () {
                 sourceUrl = e.target.src;
                 type = 'ERROR_IMAGE';
             }
+            else {
+                return false;
+            }
             var sourceError = {
                 message: '静态资源加载错误',
                 typeName: typeName,

@@ -193,6 +193,8 @@ class TryCatch implements EngineInterface {
                 } else if (typeName === 'img') {
                     sourceUrl = (e.target as any).src;
                     type = 'ERROR_IMAGE';
+                } else {
+                    return false;
                 }
                 let sourceError: SourceErrorInterface = {
                     message: '静态资源加载错误',
