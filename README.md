@@ -2,9 +2,7 @@
 
 ## 简介
 
-wall_sdk 是一款前端监听系统(SDK)，负责收集前端信息，包括 ajax, fetch ,error，用户行为等。监控服务还包括 wall 监控系统的服务端[wall-server](https://github.com/iSAM2016/wall-server)
-
-项目整体的部署流程请参考-[部署](https://github.com/iSAM2016/wall-server#%E9%83%A8%E7%BD%B2)
+wall_sdk 是一款前端监听系统(SDK)，负责收集前端信息，包括 ajax, fetch ,error，用户行为等。
 
 ## 主要性能
 
